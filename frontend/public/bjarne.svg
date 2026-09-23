@@ -1,92 +1,172 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 440" role="img" aria-label="Karikatur av dommer Bjarne">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 460" role="img" aria-label="Karikatur av dommer Bjarne">
   <title>Dommer Bjarne</title>
   <defs>
-    <radialGradient id="hud" cx="50%" cy="40%" r="60%">
-      <stop offset="0" stop-color="#ffd9bf"/>
-      <stop offset="1" stop-color="#f0b48f"/>
+    <radialGradient id="hud" cx="45%" cy="38%" r="65%">
+      <stop offset="0" stop-color="#fbd6bd"/>
+      <stop offset="0.6" stop-color="#eeb694"/>
+      <stop offset="1" stop-color="#c98a68"/>
     </radialGradient>
-    <linearGradient id="kappe" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#2b1a10"/>
-      <stop offset="1" stop-color="#140b06"/>
+    <radialGradient id="kinn" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#e98a7a" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="#e98a7a" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="stubb" cx="50%" cy="30%" r="70%">
+      <stop offset="0.45" stop-color="#6b5a4e" stop-opacity="0"/>
+      <stop offset="1" stop-color="#6b5a4e" stop-opacity="0.35"/>
+    </radialGradient>
+    <linearGradient id="nese" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#d8977a"/>
+      <stop offset="0.45" stop-color="#f6c3a6"/>
+      <stop offset="1" stop-color="#c7856a"/>
     </linearGradient>
+    <linearGradient id="kappe" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2e1c12"/>
+      <stop offset="1" stop-color="#0f0804"/>
+    </linearGradient>
+    <radialGradient id="krøll" cx="40%" cy="35%" r="65%">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="0.7" stop-color="#e9e4d8"/>
+      <stop offset="1" stop-color="#bdb4a2"/>
+    </radialGradient>
+    <radialGradient id="iris" cx="45%" cy="40%" r="60%">
+      <stop offset="0" stop-color="#8aa3b8"/>
+      <stop offset="1" stop-color="#3d566b"/>
+    </radialGradient>
+    <linearGradient id="kopp" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="0.7" stop-color="#eeeae3"/>
+      <stop offset="1" stop-color="#c9c2b6"/>
+    </linearGradient>
+    <filter id="myk" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="1.2"/></filter>
   </defs>
 
-  <!-- Dommerkappe -->
-  <path d="M60 440 C70 350 120 320 200 318 C280 320 330 350 340 440 Z" fill="url(#kappe)"/>
-  <!-- Hvit krage / bånd -->
-  <path d="M170 322 L200 360 L230 322 Z" fill="#fff"/>
-  <rect x="188" y="352" width="10" height="44" rx="3" fill="#fff"/>
-  <rect x="202" y="352" width="10" height="44" rx="3" fill="#fff"/>
+  <!-- Kappe og skuldre -->
+  <path d="M40 460 C48 372 110 336 200 334 C290 336 352 372 360 460 Z" fill="url(#kappe)"/>
+  <path d="M120 360 Q150 400 140 460" stroke="#3d271a" stroke-width="3" fill="none"/>
+  <path d="M280 360 Q250 400 260 460" stroke="#3d271a" stroke-width="3" fill="none"/>
+  <!-- Krage og bånd -->
+  <path d="M160 334 L200 372 L240 334 L226 330 L200 352 L174 330 Z" fill="#f7f5f0" stroke="#cfc8bb" stroke-width="2"/>
+  <path d="M190 366 L186 420 Q192 424 198 420 L198 368 Z" fill="#f7f5f0" stroke="#cfc8bb" stroke-width="2"/>
+  <path d="M202 368 L202 420 Q208 424 214 420 L210 366 Z" fill="#f7f5f0" stroke="#cfc8bb" stroke-width="2"/>
 
-  <!-- Parykk bak -->
-  <g fill="#f4f1ea" stroke="#cfc8b8" stroke-width="3">
-    <circle cx="92" cy="200" r="30"/><circle cx="88" cy="250" r="30"/><circle cx="96" cy="298" r="28"/>
-    <circle cx="308" cy="200" r="30"/><circle cx="312" cy="250" r="30"/><circle cx="304" cy="298" r="28"/>
+  <!-- Parykk bak (lange krøller) -->
+  <g fill="url(#krøll)" stroke="#a89f8c" stroke-width="2">
+    <ellipse cx="96" cy="196" rx="30" ry="24"/><ellipse cx="90" cy="238" rx="30" ry="24"/>
+    <ellipse cx="94" cy="280" rx="28" ry="23"/><ellipse cx="102" cy="320" rx="26" ry="22"/>
+    <ellipse cx="304" cy="196" rx="30" ry="24"/><ellipse cx="310" cy="238" rx="30" ry="24"/>
+    <ellipse cx="306" cy="280" rx="28" ry="23"/><ellipse cx="298" cy="320" rx="26" ry="22"/>
   </g>
 
   <!-- Hals -->
-  <rect x="172" y="280" width="56" height="48" fill="#f0b48f"/>
-
-  <!-- Stort hode -->
-  <ellipse cx="200" cy="200" rx="108" ry="118" fill="url(#hud)" stroke="#c98b66" stroke-width="3"/>
+  <path d="M166 280 L166 336 Q200 350 234 336 L234 280 Z" fill="#dca284"/>
+  <path d="M170 318 Q200 334 230 318" stroke="#b97d61" stroke-width="2" fill="none" opacity="0.6"/>
 
   <!-- Ører -->
-  <ellipse cx="94" cy="210" rx="16" ry="24" fill="#f0b48f" stroke="#c98b66" stroke-width="3"/>
-  <ellipse cx="306" cy="210" rx="16" ry="24" fill="#f0b48f" stroke="#c98b66" stroke-width="3"/>
+  <path d="M112 196 Q92 190 92 216 Q94 244 118 246" fill="#e5a988" stroke="#b77c5f" stroke-width="2.5"/>
+  <path d="M288 196 Q308 190 308 216 Q306 244 282 246" fill="#e5a988" stroke="#b77c5f" stroke-width="2.5"/>
+
+  <!-- Hode: litt bredt, tunge kjaker -->
+  <path d="M116 150 Q118 88 200 84 Q282 88 284 150 L288 220 Q286 276 252 298 Q226 316 200 316 Q174 316 148 298 Q114 276 112 220 Z"
+        fill="url(#hud)" stroke="#b77c5f" stroke-width="2.5"/>
+  <!-- Skjeggstubb og kjakeskygge -->
+  <path d="M130 246 Q140 300 200 312 Q260 300 270 246 Q262 290 200 298 Q138 290 130 246 Z" fill="url(#stubb)"/>
+  <path d="M148 296 Q200 330 252 296" stroke="#b77c5f" stroke-width="2" fill="none" opacity="0.5"/>
+
+  <!-- Panne-rynker (lei seg) -->
+  <path d="M158 132 Q200 124 242 132" stroke="#c2866a" stroke-width="2" fill="none" opacity="0.7"/>
+  <path d="M166 144 Q200 138 236 144" stroke="#c2866a" stroke-width="2" fill="none" opacity="0.6"/>
 
   <!-- Parykk topp -->
-  <g fill="#f4f1ea" stroke="#cfc8b8" stroke-width="3">
-    <circle cx="120" cy="120" r="30"/><circle cx="160" cy="92" r="32"/><circle cx="200" cy="84" r="34"/>
-    <circle cx="240" cy="92" r="32"/><circle cx="280" cy="120" r="30"/><circle cx="104" cy="160" r="26"/>
-    <circle cx="296" cy="160" r="26"/>
+  <g fill="url(#krøll)" stroke="#a89f8c" stroke-width="2">
+    <ellipse cx="126" cy="128" rx="28" ry="22"/><ellipse cx="160" cy="100" rx="30" ry="22"/>
+    <ellipse cx="200" cy="90" rx="32" ry="23"/><ellipse cx="240" cy="100" rx="30" ry="22"/>
+    <ellipse cx="274" cy="128" rx="28" ry="22"/><ellipse cx="112" cy="162" rx="22" ry="20"/>
+    <ellipse cx="288" cy="162" rx="22" ry="20"/>
+  </g>
+  <g stroke="#b8ae9a" stroke-width="1.5" fill="none" opacity="0.8">
+    <path d="M110 128 q14 -10 30 0"/><path d="M146 100 q14 -10 30 0"/><path d="M186 90 q14 -10 30 0"/>
+    <path d="M226 100 q14 -10 30 0"/><path d="M260 128 q14 -10 30 0"/>
   </g>
 
-  <!-- Øyenbryn: venstre flatt og surt, høyre løftet og arrogant -->
-  <path d="M132 170 Q160 162 186 172" stroke="#5a3a24" stroke-width="9" fill="none" stroke-linecap="round"/>
-  <path d="M216 158 Q246 134 274 150" stroke="#5a3a24" stroke-width="9" fill="none" stroke-linecap="round"/>
+  <!-- Øyenbryn: venstre senket (sur), høyre løftet (arrogant) -->
+  <path d="M138 176 Q158 166 186 176 Q162 172 140 182 Z" fill="#6e4b33" stroke="#5a3b27" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M214 166 Q238 144 266 156 Q242 154 216 172 Z" fill="#6e4b33" stroke="#5a3b27" stroke-width="3" stroke-linejoin="round"/>
 
-  <!-- Øyne, halvlukket og lei -->
-  <ellipse cx="160" cy="194" rx="20" ry="14" fill="#fff" stroke="#3a2314" stroke-width="3"/>
-  <ellipse cx="244" cy="192" rx="20" ry="16" fill="#fff" stroke="#3a2314" stroke-width="3"/>
-  <circle cx="166" cy="198" r="7" fill="#3a2314"/>
-  <circle cx="250" cy="196" r="7" fill="#3a2314"/>
-  <circle cx="168" cy="196" r="2" fill="#fff"/>
-  <circle cx="252" cy="194" r="2" fill="#fff"/>
-  <!-- Tunge øyelokk -->
-  <path d="M139 190 Q160 176 181 190 L181 184 Q160 170 139 184 Z" fill="#f0b48f" stroke="#3a2314" stroke-width="3"/>
-  <path d="M223 186 Q244 174 265 186 L265 181 Q244 168 223 181 Z" fill="#f0b48f" stroke="#3a2314" stroke-width="3"/>
+  <!-- Øyne -->
+  <g>
+    <path d="M142 200 Q162 186 184 200 Q162 212 142 200 Z" fill="#fbf7f2" stroke="#6b4632" stroke-width="2"/>
+    <circle cx="166" cy="201" r="7.5" fill="url(#iris)"/><circle cx="166" cy="201" r="3.4" fill="#1a1410"/>
+    <circle cx="168" cy="199" r="1.6" fill="#fff"/>
+    <!-- tungt øyelokk -->
+    <path d="M140 199 Q162 184 186 199 Q162 190 140 199 Z" fill="#dfa183" stroke="#9b6448" stroke-width="2"/>
+    <path d="M146 212 Q164 218 182 210" stroke="#c38568" stroke-width="1.8" fill="none"/>
+  </g>
+  <g>
+    <path d="M216 196 Q238 180 260 196 Q238 210 216 196 Z" fill="#fbf7f2" stroke="#6b4632" stroke-width="2"/>
+    <circle cx="242" cy="196" r="7.5" fill="url(#iris)"/><circle cx="242" cy="196" r="3.4" fill="#1a1410"/>
+    <circle cx="244" cy="194" r="1.6" fill="#fff"/>
+    <path d="M214 194 Q238 180 262 194 Q238 188 214 194 Z" fill="#dfa183" stroke="#9b6448" stroke-width="2"/>
+    <path d="M220 208 Q238 214 256 206" stroke="#c38568" stroke-width="1.8" fill="none"/>
+    <path d="M262 198 l10 -3 M262 204 l10 1" stroke="#c38568" stroke-width="1.5"/>
+  </g>
 
-  <!-- Stor nese, litt til værs -->
-  <path d="M200 200 Q190 240 184 252 Q200 266 222 254 Q214 236 206 200" fill="#eaa37c" stroke="#c98b66" stroke-width="3"/>
+  <!-- Nese: stor, realistisk skygge -->
+  <path d="M194 204 Q188 236 178 254 Q176 268 192 270 Q200 276 210 270 Q226 268 222 254 Q212 236 206 204 Z"
+        fill="url(#nese)" stroke="#b77c5f" stroke-width="2"/>
+  <path d="M186 264 q6 -6 12 0 M202 264 q6 -6 12 0" stroke="#8f5a44" stroke-width="2.5" fill="none"/>
+  <ellipse cx="204" cy="252" rx="6" ry="4" fill="#fff" opacity="0.35"/>
 
-  <!-- Røde kinn -->
-  <circle cx="138" cy="238" r="16" fill="#ff8f8f" opacity="0.35"/>
-  <circle cx="262" cy="238" r="16" fill="#ff8f8f" opacity="0.35"/>
+  <!-- Lesebriller langt nede på nesen -->
+  <g stroke="#2a1a10" stroke-width="3.5" fill="#dfe9ee" fill-opacity="0.25">
+    <rect x="160" y="236" width="36" height="20" rx="6"/>
+    <rect x="206" y="236" width="36" height="20" rx="6"/>
+    <path d="M196 244 Q201 240 206 244" fill="none"/>
+    <path d="M160 242 L118 222" fill="none"/>
+    <path d="M242 242 L284 222" fill="none"/>
+  </g>
+  <path d="M166 240 l10 0" stroke="#fff" stroke-width="2" opacity="0.7"/>
+  <path d="M212 240 l10 0" stroke="#fff" stroke-width="2" opacity="0.7"/>
+
+  <!-- Kinn -->
+  <ellipse cx="146" cy="244" rx="22" ry="16" fill="url(#kinn)"/>
+  <ellipse cx="256" cy="244" rx="22" ry="16" fill="url(#kinn)"/>
+  <!-- Nasolabialfolder -->
+  <path d="M170 262 Q160 282 168 296" stroke="#b77c5f" stroke-width="2" fill="none" opacity="0.7"/>
+  <path d="M232 262 Q244 280 238 294" stroke="#b77c5f" stroke-width="2" fill="none" opacity="0.7"/>
 
   <!-- Bart -->
-  <path d="M150 272 Q176 256 200 270 Q224 256 250 272 Q236 284 200 278 Q164 284 150 272 Z" fill="#8a5a3a"/>
+  <path d="M164 280 Q182 268 200 278 Q218 268 238 280 Q232 290 216 288 Q206 286 200 284 Q194 286 184 288 Q168 290 164 280 Z"
+        fill="#7a553b" stroke="#5a3b27" stroke-width="1.5"/>
+  <g stroke="#9a7456" stroke-width="1" opacity="0.8">
+    <path d="M172 280 l4 5"/><path d="M180 277 l3 6"/><path d="M188 276 l2 6"/>
+    <path d="M212 276 l-2 6"/><path d="M220 277 l-3 6"/><path d="M228 280 l-4 5"/>
+  </g>
 
   <!-- Skjevt, selvgodt smil -->
-  <path d="M168 292 Q200 302 238 286" stroke="#7a2f22" stroke-width="6" fill="none" stroke-linecap="round"/>
-  <path d="M236 284 Q244 282 246 290" stroke="#7a2f22" stroke-width="5" fill="none" stroke-linecap="round"/>
+  <path d="M178 298 Q202 304 230 292" stroke="#8b3b2e" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+  <path d="M228 291 Q236 288 238 296" stroke="#8b3b2e" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+  <path d="M188 304 Q204 310 222 302" stroke="#c98a68" stroke-width="2" fill="none" opacity="0.7"/>
 
   <!-- Kaffekopp -->
-  <g transform="translate(262 330) rotate(-8)">
-    <path d="M0 0 L70 0 L62 78 Q35 88 8 78 Z" fill="#fff" stroke="#3a2314" stroke-width="4"/>
-    <path d="M68 16 Q96 20 90 44 Q86 62 62 58" fill="none" stroke="#3a2314" stroke-width="7"/>
-    <rect x="-2" y="-6" width="74" height="10" rx="4" fill="#6b3f22"/>
-    <text x="35" y="50" font-family="Georgia, serif" font-size="15" font-weight="700" text-anchor="middle" fill="#8b1e1e">SJEF</text>
-    <path d="M18 -16 q-8 -12 0 -24 q8 -12 0 -24" stroke="#b09078" stroke-width="4" fill="none" stroke-linecap="round"/>
-    <path d="M38 -16 q-8 -12 0 -24 q8 -12 0 -24" stroke="#b09078" stroke-width="4" fill="none" stroke-linecap="round"/>
-    <path d="M58 -16 q-8 -12 0 -24 q8 -12 0 -24" stroke="#b09078" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <g transform="translate(268 344) rotate(-7)">
+    <path d="M18 -12 q-8 -12 0 -24 q8 -12 0 -24" stroke="#c5ad99" stroke-width="4" fill="none" stroke-linecap="round" filter="url(#myk)" opacity="0.85"/>
+    <path d="M38 -12 q-8 -12 0 -24 q8 -12 0 -24" stroke="#c5ad99" stroke-width="4" fill="none" stroke-linecap="round" filter="url(#myk)" opacity="0.85"/>
+    <path d="M58 -12 q-8 -12 0 -24 q8 -12 0 -24" stroke="#c5ad99" stroke-width="4" fill="none" stroke-linecap="round" filter="url(#myk)" opacity="0.85"/>
+    <path d="M0 0 L74 0 L66 82 Q37 92 8 82 Z" fill="url(#kopp)" stroke="#5a4636" stroke-width="3"/>
+    <ellipse cx="37" cy="1" rx="37" ry="7" fill="#4a2a16" stroke="#5a4636" stroke-width="3"/>
+    <ellipse cx="30" cy="0" rx="12" ry="2.5" fill="#8a5a36" opacity="0.7"/>
+    <path d="M72 18 Q100 22 94 46 Q90 64 64 60" fill="none" stroke="#5a4636" stroke-width="7"/>
+    <path d="M72 18 Q100 22 94 46 Q90 64 64 60" fill="none" stroke="#fff" stroke-width="3"/>
+    <text x="37" y="48" font-family="Georgia, serif" font-size="15" font-weight="700" text-anchor="middle" fill="#8b1e1e">SJEF</text>
   </g>
-  <!-- Hånd som holder koppen -->
-  <ellipse cx="258" cy="410" rx="24" ry="18" fill="#f0b48f" stroke="#c98b66" stroke-width="3"/>
+  <!-- Hånd -->
+  <path d="M244 420 Q236 398 256 394 L290 396 Q300 404 292 420 Q270 432 244 420 Z" fill="#e5a988" stroke="#b77c5f" stroke-width="2.5"/>
+  <path d="M258 402 q14 2 28 0 M256 412 q14 2 30 0" stroke="#b77c5f" stroke-width="1.8" fill="none"/>
 
   <!-- Snakkeboble -->
-  <g transform="translate(14 18)">
-    <path d="M0 0 H120 Q132 0 132 12 V48 Q132 60 120 60 H40 L24 78 L28 60 H12 Q0 60 0 48 V12 Q0 0 12 0 Z" fill="#fff" stroke="#3a2314" stroke-width="3"/>
-    <text x="66" y="28" font-family="Georgia, serif" font-size="17" font-weight="700" text-anchor="middle" fill="#3a2314">*sukk*</text>
-    <text x="66" y="48" font-family="Georgia, serif" font-size="12" font-style="italic" text-anchor="middle" fill="#3a2314">kl. 15:55…</text>
+  <g transform="translate(10 14)">
+    <path d="M0 0 H124 Q136 0 136 12 V50 Q136 62 124 62 H44 L26 82 L30 62 H12 Q0 62 0 50 V12 Q0 0 12 0 Z" fill="#fff" stroke="#3a2314" stroke-width="3"/>
+    <text x="68" y="29" font-family="Georgia, serif" font-size="18" font-weight="700" text-anchor="middle" fill="#3a2314">*sukk*</text>
+    <text x="68" y="50" font-family="Georgia, serif" font-size="12" font-style="italic" text-anchor="middle" fill="#3a2314">kl. 15:55…</text>
   </g>
 </svg>

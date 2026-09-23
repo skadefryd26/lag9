@@ -274,7 +274,10 @@ function stemning(i: number) {
   return "🔥 Episk · Grieg";
 }
 
-export function Bakgrunnsmusikk({ drama }: { drama: Drama }) {
+export type Musikk = { på: boolean; veksle: () => void; intensitet: number; støttet: boolean };
+
+// Eier selve musikkmotoren. Kalles én gang, så flere knapper kan styre samme musikk.
+export function useBakgrunnsmusikk(drama: Drama): Musikk {
   const [på, setPå] = useState(false);
   const intensitet = intensitetFraDrama(drama);
   const motor = useRef<Motor | null>(null);
@@ -300,14 +303,19 @@ export function Bakgrunnsmusikk({ drama }: { drama: Drama }) {
     motor.current?.settIntensitet(intensitet);
   }, [intensitet]);
 
+  return { på, veksle: () => setPå((v) => !v), intensitet, støttet };
+}
+
+export function Bakgrunnsmusikk({ musikk, kompakt = false }: { musikk: Musikk; kompakt?: boolean }) {
+  const { på, veksle, intensitet, støttet } = musikk;
   if (!støttet) return null;
 
   return (
     <Group gap="sm">
-      <Button variant={på ? "filled" : "outline"} color="tre.7" onClick={() => setPå((v) => !v)}>
+      <Button variant={på ? "filled" : "outline"} color={kompakt ? "gull.6" : "tre.7"} size={kompakt ? "sm" : "md"} onClick={veksle}>
         {på ? "🔇 Skru av musikk" : "🎵 Bakgrunnsmusikk"}
       </Button>
-      {på && (
+      {på && !kompakt && (
         <Badge size="lg" variant="light" color={intensitet >= 0.7 ? "red.8" : "tre.8"}>
           {stemning(intensitet)}
         </Badge>

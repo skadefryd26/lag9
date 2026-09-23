@@ -1,6 +1,11 @@
 // Speiler backend/src/features/rettssak/types/kontrakt.ts. Endre begge samtidig.
 
-export type Drama = number; // heltall 1–10
+export type Drama = {
+  aktor: number;
+  forsvarer: number;
+  dommer: number;
+  rettsskriver: number;
+}; // hvert nivå er et heltall 1–10
 
 export type Rolle = "aktor" | "forsvarer" | "dommer";
 

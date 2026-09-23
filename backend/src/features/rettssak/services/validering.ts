@@ -2,11 +2,33 @@ import type { Drama } from "../types/kontrakt.js";
 
 export type Resultat<T> = { ok: true; verdi: T } | { ok: false; melding: string };
 
+function erObjekt(verdi: unknown): verdi is Record<string, unknown> {
+  return typeof verdi === "object" && verdi !== null && !Array.isArray(verdi);
+}
+
+function erDramanivå(verdi: unknown): verdi is number {
+  return typeof verdi === "number" && Number.isInteger(verdi) && verdi >= 1 && verdi <= 10;
+}
+
 export function validerDrama(verdi: unknown): Resultat<Drama> {
-  if (typeof verdi !== "number" || !Number.isInteger(verdi) || verdi < 1 || verdi > 10) {
-    return { ok: false, melding: "Dramanivået må være et helt tall fra 1 til 10." };
+  if (!erObjekt(verdi)) {
+    return { ok: false, melding: "Velg et dramanivå fra 1 til 10 for hver rolle." };
   }
-  return { ok: true, verdi };
+
+  const aktor = verdi.aktor;
+  const forsvarer = verdi.forsvarer;
+  const dommer = verdi.dommer;
+  const rettsskriver = verdi.rettsskriver;
+  if (
+    !erDramanivå(aktor) ||
+    !erDramanivå(forsvarer) ||
+    !erDramanivå(dommer) ||
+    !erDramanivå(rettsskriver)
+  ) {
+    return { ok: false, melding: "Hvert dramanivå må være et helt tall fra 1 til 10." };
+  }
+
+  return { ok: true, verdi: { aktor, forsvarer, dommer, rettsskriver } };
 }
 
 export function validerSak(verdi: unknown): Resultat<string> {

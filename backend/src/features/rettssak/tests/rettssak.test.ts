@@ -1,6 +1,10 @@
 import { describe, expect, it, vi } from "vitest";
 import { hentTekst, type GatewayKall } from "../../../clients/aiGateway.js";
+import { aktorInstruks } from "../prompts/aktor.js";
+import { bjarneInstruks } from "../prompts/bjarne.js";
 import { dramaInstruks } from "../prompts/drama.js";
+import { forsvarerInstruks } from "../prompts/forsvarer.js";
+import { rettsskriverInstruks } from "../prompts/rettsskriver.js";
 import { finnPåSak, førRettssak } from "../services/rettssak.js";
 import { validerDrama, validerSak } from "../services/validering.js";
 import { STEG_REKKEFOLGE } from "../types/kontrakt.js";
@@ -13,20 +17,57 @@ describe("validering", () => {
     expect(validerSak("  Sykkelen ble stjålet  ")).toEqual({ ok: true, verdi: "Sykkelen ble stjålet" });
   });
 
-  it("godtar bare heltall 1–10 som drama", () => {
-    for (const ugyldig of [0, 11, 5.5, "5", undefined]) expect(validerDrama(ugyldig).ok).toBe(false);
-    expect(validerDrama(1).ok).toBe(true);
-    expect(validerDrama(10).ok).toBe(true);
+  it("validerer et heltall 1–10 per rolle", () => {
+    const gyldig = { aktor: 1, forsvarer: 5, dommer: 10, rettsskriver: 3 };
+    expect(validerDrama(gyldig)).toEqual({ ok: true, verdi: gyldig });
+
+    for (const ugyldig of [
+      5,
+      null,
+      {},
+      { ...gyldig, aktor: 0 },
+      { ...gyldig, forsvarer: 11 },
+      { ...gyldig, dommer: 5.5 },
+      { ...gyldig, rettsskriver: "5" },
+    ]) {
+      expect(validerDrama(ugyldig).ok).toBe(false);
+    }
   });
 });
 
 describe("dramaInstruks", () => {
   it("har tre tydelige nivåer og tar med tallet", () => {
-    expect(dramaInstruks(2)).toMatch(/nøktern/);
+    expect(dramaInstruks(1)).toMatch(/nøktern/);
     expect(dramaInstruks(5)).toMatch(/tingretten/);
-    expect(dramaInstruks(9)).toMatch(/Innsigelse/);
+    expect(dramaInstruks(10)).toMatch(/Innsigelse/);
     expect(dramaInstruks(1)).toContain("1 av 10");
-    expect(dramaInstruks(3)).toContain("3 av 10");
+    expect(dramaInstruks(5)).toContain("5 av 10");
+    expect(dramaInstruks(10)).toContain("10 av 10");
+    for (const nivå of [1, 5, 10]) {
+      expect(dramaInstruks(nivå)).toContain("bare framføringen");
+    }
+  });
+});
+
+describe("karakterprompter", () => {
+  it("holder de fire rollene på norsk og skiller rolleoppgaven deres", () => {
+    const prompter = [
+      aktorInstruks("innledning"),
+      forsvarerInstruks("innledning"),
+      bjarneInstruks(),
+      rettsskriverInstruks(),
+    ];
+
+    expect(prompter.every((prompt) => prompt.includes("norsk bokmål"))).toBe(true);
+    expect(aktorInstruks("innledning")).toContain("forsikringsselskapet");
+    expect(forsvarerInstruks("innledning")).toContain("kundens side");
+    expect(bjarneInstruks()).toContain("INNVILGES, AVSLÅS eller DELVIS INNVILGES");
+    expect(rettsskriverInstruks()).toContain("2–4 setninger");
+  });
+
+  it("ber prosedyrene svare på riktig tidligere innlegg", () => {
+    expect(aktorInstruks("prosedyre")).toContain("Forsvareren har allerede holdt sitt innledningsforedrag");
+    expect(forsvarerInstruks("prosedyre")).toContain("Aktor har allerede svart på innledningen din");
   });
 });
 
@@ -50,17 +91,26 @@ describe("førRettssak", () => {
       return `svar ${kall.length}`;
     };
 
+    const drama = { aktor: 2, forsvarer: 5, dommer: 10, rettsskriver: 3 };
     const innlegg = [];
-    for await (const i of førRettssak("Trampoline på Tesla", 7, gateway)) innlegg.push(i);
+    for await (const i of førRettssak("Trampoline på Tesla", drama, gateway)) innlegg.push(i);
 
     expect(innlegg.map((i) => i.steg)).toEqual(STEG_REKKEFOLGE);
     expect(innlegg.map((i) => i.rolle)).toEqual(["aktor", "forsvarer", "aktor", "forsvarer", "dommer"]);
     expect(kall[0]?.input).toContain("Trampoline på Tesla");
     expect(kall[0]?.input).not.toContain("svar 1");
+    expect(kall[2]?.input).toContain("svar 2");
+    expect(kall[3]?.input).toContain("svar 3");
     expect(kall[4]?.input).toContain("svar 1");
     expect(kall[4]?.input).toContain("svar 4");
+    expect(kall[2]?.instructions).toContain("Forsvareren har allerede holdt sitt innledningsforedrag");
+    expect(kall[3]?.instructions).toContain("Aktor har allerede svart på innledningen din");
     expect(kall[4]?.instructions).toContain("Bjarne");
-    expect(kall.every((k) => k.instructions.includes("7 av 10"))).toBe(true);
+    expect(kall[0]?.instructions).toContain("2 av 10");
+    expect(kall[1]?.instructions).toContain("5 av 10");
+    expect(kall[2]?.instructions).toContain("2 av 10");
+    expect(kall[3]?.instructions).toContain("5 av 10");
+    expect(kall[4]?.instructions).toContain("10 av 10");
   });
 
   it("stopper når forespørselen avbrytes", async () => {
@@ -70,14 +120,18 @@ describe("førRettssak", () => {
       return "svar";
     });
     const innlegg = [];
-    for await (const i of førRettssak("sak", 5, gateway, avbryt.signal)) innlegg.push(i);
+    for await (
+      const i of førRettssak("sak", { aktor: 5, forsvarer: 5, dommer: 5, rettsskriver: 5 }, gateway, avbryt.signal)
+    ) {
+      innlegg.push(i);
+    }
     expect(innlegg).toHaveLength(1);
     expect(gateway).toHaveBeenCalledTimes(1);
   });
 
   it("rettsskriveren får dramanivået", async () => {
     const gateway = vi.fn<GatewayKall>(async () => "En sak");
-    await expect(finnPåSak(3, gateway)).resolves.toBe("En sak");
-    expect(gateway.mock.calls[0]?.[0].instructions).toContain("3 av 10");
+    await expect(finnPåSak(9, gateway)).resolves.toBe("En sak");
+    expect(gateway.mock.calls[0]?.[0].instructions).toContain("9 av 10");
   });
 });

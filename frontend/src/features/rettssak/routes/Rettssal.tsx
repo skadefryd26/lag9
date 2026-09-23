@@ -21,7 +21,7 @@ import { Diktering } from "../components/Diktering";
 import { Opplesning } from "../components/Opplesning";
 import { feilTekst, useRettssak } from "../hooks/useRettssak";
 import { useOverrask } from "../hooks/useOverrask";
-import { STEG_REKKEFOLGE, type Rolle, type Steg } from "../types/kontrakt";
+import { STEG_REKKEFOLGE, type Drama, type Rolle, type Steg } from "../types/kontrakt";
 
 const TITLER: Record<Steg, string> = {
   aktorInnledning: "Aktors innledningsforedrag",
@@ -47,9 +47,16 @@ const VENTETEKSTER: Record<Steg, string[]> = {
 };
 
 const DRAMA_MERKER = [
-  { value: 1, label: "Saksgjennomgang" },
-  { value: 5, label: "Tingretten" },
-  { value: 10, label: "TV-rettssak" },
+  { value: 1, label: "1" },
+  { value: 5, label: "5" },
+  { value: 10, label: "10" },
+];
+
+const DRAMA_ROLLER: readonly { rolle: keyof Drama; navn: string }[] = [
+  { rolle: "aktor", navn: "Aktor" },
+  { rolle: "forsvarer", navn: "Forsvarer" },
+  { rolle: "dommer", navn: "Dommer Bjarne" },
+  { rolle: "rettsskriver", navn: "Rettsskriver («Overrask meg»)" },
 ];
 
 function Ventetekst({ steg }: { steg: Steg }) {
@@ -72,7 +79,12 @@ function Ventetekst({ steg }: { steg: Steg }) {
 
 export function Rettssal() {
   const [saksTekst, setSaksTekst] = useState("");
-  const [drama, setDrama] = useState(5);
+  const [drama, setDrama] = useState<Drama>({
+    aktor: 5,
+    forsvarer: 5,
+    dommer: 5,
+    rettsskriver: 5,
+  });
   const [valideringsfeil, setValideringsfeil] = useState<string | null>(null);
   const rettssak = useRettssak();
   const overrask = useOverrask((sak) => {
@@ -153,20 +165,37 @@ export function Rettssal() {
               </Group>
               {overraskFeil && <Alert color="red">{overraskFeil}</Alert>}
 
-              <Text fw={700} size="sm">
-                Dramanivå: {drama} {drama >= 9 ? "🔥" : drama <= 2 ? "😴" : ""}
-              </Text>
-              <Slider
-                min={1}
-                max={10}
-                step={1}
-                value={drama}
-                onChange={setDrama}
-                disabled={pågår}
-                color="tre.7"
-                marks={DRAMA_MERKER}
-                mb="lg"
-              />
+              <Stack gap="sm">
+                <Text fw={700} size="sm" c="tre.8">
+                  Dramanivå for hver rolle
+                </Text>
+                <Text size="sm" c="dimmed">
+                  1 = saksgjennomgang, 5 = tingrett, 10 = TV-rettssak
+                </Text>
+                {DRAMA_ROLLER.map(({ rolle, navn }) => (
+                  <Stack key={rolle} gap={4}>
+                    <Group justify="space-between">
+                      <Text fw={600} size="sm">
+                        {navn}
+                      </Text>
+                      <Badge color="gull.7" variant="light">
+                        {drama[rolle]}
+                      </Badge>
+                    </Group>
+                    <Slider
+                      aria-label={`Dramanivå for ${navn}`}
+                      min={1}
+                      max={10}
+                      step={1}
+                      value={drama[rolle]}
+                      onChange={(verdi) => setDrama((gjeldende) => ({ ...gjeldende, [rolle]: verdi }))}
+                      disabled={pågår}
+                      color="tre.7"
+                      marks={DRAMA_MERKER}
+                    />
+                  </Stack>
+                ))}
+              </Stack>
 
               <Button size="lg" color="tre.8" onClick={startRettssak} loading={pågår} fullWidth>
                 🔨 Start rettssaken
@@ -212,7 +241,7 @@ export function Rettssal() {
 
           {rettssak.status === "ferdig" && (
             <>
-              <Opplesning innlegg={rettssak.innlegg} drama={drama} />
+              <Opplesning innlegg={rettssak.innlegg} drama={drama.dommer} />
               <Text c="gull.3" ta="center" fw={700}>
                 Retten er hevet. Bjarne er allerede på vei hjem.
               </Text>

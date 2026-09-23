@@ -7,7 +7,7 @@ Til kodeagenten som bygger dette. Laget har bestemt idé, personlighet og arbeid
 
 En webapp der en oppdiktet forsikringssak går til retten. Tre AI-roller — aktor, forsvarer og
 dommer Bjarne — fører saken i fem innlegg, og en fjerde — rettsskriveren — kan finne på saker.
-En dramaskyvebryter (1–10) styrer hvor teatralsk alle er. Målet er at rommet ler under demoen.
+Brukeren stiller dramanivået (1–10) separat for hver rolle. Målet er at rommet ler under demoen.
 
 Hvem det er for: alle med et forsikringskrav som fortjener sin dag i retten — ekte-aktig eller
 helt absurd. Alt er oppdiktet; ingen ekte kunder, saker eller kolleger.
@@ -19,8 +19,10 @@ helt absurd. Alt er oppdiktet; ingen ekte kunder, saker eller kolleger.
 1. Én side: rettssalen. Tittel med attitude, f.eks. «Skaderetten — Bjarne mot alle».
 2. Et tekstfelt for saken (flere linjer, maks 2000 tegn), med en knapp «Overrask meg» ved siden av.
    «Overrask meg» fyller tekstfeltet med en sak rettsskriveren har funnet på.
-3. En dramaskyvebryter fra 1 til 10 (standard 5), med merkelapper, f.eks. 1 «Saksgjennomgang»,
-   5 «Tingretten», 10 «Amerikansk TV-rettssak».
+3. Fire dramaskyvebrytere fra 1 til 10 (standard 5): én for aktor, én for forsvarer, én for dommer
+   Bjarne og én for rettsskriveren («Overrask meg»). Aktors nivå gjelder både innledning og
+   prosedyre; forsvarerens nivå gjelder begge innleggene deres. Vis merkelappene 1
+   «Saksgjennomgang», 5 «Tingretten» og 10 «Amerikansk TV-rettssak».
 4. En knapp «Start rettssaken».
 5. Fem innleggsblokker som dukker opp én og én, hver med rolle, avatar/farge og tekst:
    1. Aktors innledningsforedrag
@@ -35,11 +37,12 @@ helt absurd. Alt er oppdiktet; ingen ekte kunder, saker eller kolleger.
 
 - Tom sak gir en tydelig feilmelding på skjermen, ingen rettssak starter.
 - «Overrask meg» fyller tekstfeltet med en ny, oppdiktet sak innen rimelig tid, og tar hensyn til
-  dramanivået.
+  rettsskriverens dramanivå.
+- Hvert valgt dramanivå sendes bare til den aktuelle rollen; å endre én slider endrer ikke de andre.
 - «Start rettssaken» gir fem innlegg i riktig rekkefølge, som vises fortløpende etter hvert som de
   blir klare.
 - Prosedyrene refererer til det motparten sa i innledningen; dommen refererer til innleggene.
-- Tydelig forskjell i tone mellom drama 1, 5 og 10.
+- Hvert nivå gir tydelig forskjell i tone mellom drama 1, 5 og 10.
 - Feil fra gatewayen (f.eks. utløpt token) vises som en forståelig melding, ikke en hvit side.
 
 ## Personligheter (utgangspunkt — Maria eier og forbedrer disse)
@@ -62,13 +65,15 @@ hvorfor. Avslutt gjerne med noe om kaffe eller helgen.
 ### Aktor
 
 Du representerer forsikringsselskapet og argumenterer for at kravet skal avslås. Du er
-overbevist om at hver sak er svindel eller i det minste grov uaktsomhet, og du leter etter hull i
-historien, unntak i vilkårene og egenandeler.
+skråsikker og leter etter hull i historien, mulige unntak i vilkårene og egenandeler. Du kan være
+mistenksom, men skiller mellom opplysninger, argumenter og antakelser: ikke framstill svindel eller
+uaktsomhet som fakta uten støtte i saken.
 
 ### Forsvarer
 
-Du representerer kunden og argumenterer for at kravet skal utbetales i sin helhet. Du ser kunden
-som et offer for omstendighetene, universet og muligens naboen, og du appellerer til følelser.
+Du representerer kunden og argumenterer for at kravet skal utbetales i sin helhet. Møt kundens
+situasjon med empati, og bruk gjerne følelser og retorikk. Ikke finn på detaljer om kunden eller
+saken, og la humoren aldri gå på kundens bekostning.
 
 ### Rettsskriver
 
@@ -78,7 +83,8 @@ firmaer. Returner bare saksteksten.
 
 ### Dramanivå
 
-Hver rolle får dramanivået (1–10) lagt til i instruksjonene sine, med en beskrivelse av nivået:
+Hver rolle får sitt eget dramanivå (1–10) lagt til i instruksjonene sine, med en beskrivelse av nivået.
+Dramanivået påvirker framføringen, ikke rollens standpunkt eller saksfakta:
 
 - 1–3: nøkternt, saklig, tørt byråkratisk.
 - 4–7: engasjert, retoriske spørsmål, litt teater.
@@ -111,7 +117,7 @@ systemprompt.
 ```ts
 type AIGatewayBody = {
   model: string; // "gpt-5.6-luna"
-  instructions: string; // rollens systemprompt + dramaInstruks(nivå)
+  instructions: string; // rollens systemprompt + dramaInstruks(rollens nivå)
   input: string; // saken + tidligere innlegg i rettssaken
   stream: boolean; // false
 };
@@ -128,8 +134,8 @@ type AIGatewayBody = {
 - Tokenet ligger bare i `.env.local` (ignorert av Git) og bare i backend. Aldri i `VITE_`-variabler,
   aldri i frontend, aldri i logger.
 - `.env.example` viser `AI_GATEWAY_TOKEN=` uten verdi.
-- Valider input i backend: `saksTekst` streng 1–2000 tegn, `drama` heltall 1–10. Ugyldig input gir
-  400.
+- Valider input i backend: `saksTekst` streng 1–2000 tegn, og alle fire dramanivåene heltall 1–10.
+  Ugyldig input gir 400.
 - Ingen ekte personopplysninger eller saker i kode, testdata eller commits.
 
 ## API-kontrakter
@@ -138,7 +144,12 @@ Delte typer i `backend/src/features/rettssak/types/kontrakt.ts`; frontend speile
 `frontend/src/features/rettssak/types/`.
 
 ```ts
-type Drama = number; // heltall 1–10
+type Drama = {
+  aktor: number; // heltall 1–10
+  forsvarer: number;
+  dommer: number;
+  rettsskriver: number;
+};
 
 type Rolle = "aktor" | "forsvarer" | "dommer";
 
@@ -156,7 +167,7 @@ type FeilRespons = { feil: { kode: FeilKode; melding: string } };
 
 ### `POST /api/sak/overrask`
 
-Request: `{ drama: Drama }`
+Request: `{ drama: Drama }` — rettsskriverens nivå brukes.
 Response 200: `{ saksTekst: string }`
 Feil: 400 / 401 / 502 med `FeilRespons`.
 
@@ -191,7 +202,7 @@ frontend/
   src/theme.ts                   # Mantine-tema med rettssal-preg
   src/features/rettssak/
     routes/                      # rettssal-siden          (Pablo, issue: Skjermen)
-    components/                  # skjema, skyvebryter, innleggsblokker, ventetekster
+    components/                  # skjema, rolletilpassede skyvebrytere, innleggsblokker, ventetekster
     api/                         # klient for /api/*
     hooks/                       # useRettssak, useOverrask
     types/
@@ -216,8 +227,9 @@ integrasjon krever det.
 - `npm install` og `npm run dev` fra rota. Les adressen fra dev-serverens utskrift.
 - Smal validering: `npm run typecheck` (tsc i begge workspaces) og `npm test` i backend for
   prompt-bygging, input-validering og tekstuttrekk fra gateway-responsen (gateway-kallet mockes).
-- Hånd-test: kjør én sak på drama 1, 5 og 10, og sjekk i nettleseren at alle fem innleggene kommer
-  fram etter hverandre. Se `.github/skills/skadefryd-sjekk-appen/SKILL.md`.
+- Hånd-test: kjør én sak med ulike nivåer for hver rolle, og sjekk at hvert innlegg bruker riktig
+  nivå. Prøv også 1, 5 og 10 for én rolle og bekreft at alle fem innleggene kommer fram etter
+  hverandre. Se `.github/skills/skadefryd-sjekk-appen/SKILL.md`.
 
 ## Senere utvidelser (utenfor første versjon)
 

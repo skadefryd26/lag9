@@ -8,12 +8,18 @@ import type { Drama, Rolle, Steg } from "../types/kontrakt.js";
 
 type Innlegg = { steg: Steg; rolle: Rolle; tekst: string };
 
-const STEG: readonly { steg: Steg; rolle: Rolle; tittel: string; instruks: () => string }[] = [
-  { steg: "aktorInnledning", rolle: "aktor", tittel: "Aktors innledningsforedrag", instruks: () => aktorInstruks("innledning") },
-  { steg: "forsvarerInnledning", rolle: "forsvarer", tittel: "Forsvarerens innledningsforedrag", instruks: () => forsvarerInstruks("innledning") },
-  { steg: "aktorProsedyre", rolle: "aktor", tittel: "Aktors prosedyre", instruks: () => aktorInstruks("prosedyre") },
-  { steg: "forsvarerProsedyre", rolle: "forsvarer", tittel: "Forsvarerens prosedyre", instruks: () => forsvarerInstruks("prosedyre") },
-  { steg: "dom", rolle: "dommer", tittel: "Dommer Bjarnes dom", instruks: bjarneInstruks },
+const STEG: readonly {
+  steg: Steg;
+  rolle: Rolle;
+  dramaRolle: keyof Drama;
+  tittel: string;
+  instruks: () => string;
+}[] = [
+  { steg: "aktorInnledning", rolle: "aktor", dramaRolle: "aktor", tittel: "Aktors innledningsforedrag", instruks: () => aktorInstruks("innledning") },
+  { steg: "forsvarerInnledning", rolle: "forsvarer", dramaRolle: "forsvarer", tittel: "Forsvarerens innledningsforedrag", instruks: () => forsvarerInstruks("innledning") },
+  { steg: "aktorProsedyre", rolle: "aktor", dramaRolle: "aktor", tittel: "Aktors prosedyre", instruks: () => aktorInstruks("prosedyre") },
+  { steg: "forsvarerProsedyre", rolle: "forsvarer", dramaRolle: "forsvarer", tittel: "Forsvarerens prosedyre", instruks: () => forsvarerInstruks("prosedyre") },
+  { steg: "dom", rolle: "dommer", dramaRolle: "dommer", tittel: "Dommer Bjarnes dom", instruks: bjarneInstruks },
 ];
 
 export function byggInput(saksTekst: string, tidligere: readonly Innlegg[], nesteTittel: string): string {
@@ -40,7 +46,7 @@ export async function* førRettssak(
   for (const s of STEG) {
     if (signal?.aborted) return;
     const tekst = await gateway({
-      instructions: s.instruks() + dramaInstruks(drama),
+      instructions: s.instruks() + dramaInstruks(drama[s.dramaRolle]),
       input: byggInput(saksTekst, tidligere, s.tittel),
     });
     const innlegg = { steg: s.steg, rolle: s.rolle, tekst };
@@ -49,9 +55,9 @@ export async function* førRettssak(
   }
 }
 
-export function finnPåSak(drama: Drama, gateway: GatewayKall): Promise<string> {
+export function finnPåSak(dramanivå: number, gateway: GatewayKall): Promise<string> {
   return gateway({
-    instructions: rettsskriverInstruks() + dramaInstruks(drama),
+    instructions: rettsskriverInstruks() + dramaInstruks(dramanivå),
     input: "Finn på en ny sak til dagens rettsliste.",
   });
 }

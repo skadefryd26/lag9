@@ -341,7 +341,7 @@ export function Rettssal() {
 
           {rettssak.status === "ferdig" && (
             <>
-              <Opplesning innlegg={rettssak.innlegg} drama={drama.dommer} />
+              <Opplesning innlegg={rettssak.innlegg} drama={drama} />
               <Text c="gull.3" ta="center" fw={700}>
                 Retten er hevet. Bjarne er allerede på vei hjem.
               </Text>

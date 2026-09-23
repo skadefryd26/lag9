@@ -55,7 +55,7 @@ export function Diktering({
     start.current = tekst.trim() ? `${tekst.trim()} ` : "";
     g.onresult = (e) => {
       let alt = "";
-      for (let i = 0; i < e.results.length; i++) alt += e.results[i][0].transcript;
+      for (let i = 0; i < e.results.length; i++) alt += e.results[i]?.[0]?.transcript ?? "";
       onTekst((start.current + alt).slice(0, 2000));
     };
     g.onerror = (e) => setFeil(FEIL[e.error] ?? `Mikrofonen feilet (${e.error}).`);

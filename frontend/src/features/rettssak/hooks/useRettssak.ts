@@ -28,21 +28,28 @@ export function useRettssak() {
     setFeil(null);
     setStatus("pågår");
 
+    let avsluttet = false;
     try {
       await strømRettssak(
         saksTekst,
         drama,
         (h) => {
           if (h.type === "innlegg") setInnlegg((f) => [...f, { steg: h.steg, rolle: h.rolle, tekst: h.tekst }]);
-          else if (h.type === "ferdig") setStatus("ferdig");
-          else {
+          else if (h.type === "ferdig") {
+            avsluttet = true;
+            setStatus("ferdig");
+          } else {
+            avsluttet = true;
             setFeil(feilTekst(h.kode, h.melding));
             setStatus("feil");
           }
         },
         avbryt.signal,
       );
-      setStatus((s) => (s === "pågår" ? "ferdig" : s));
+      if (!avsluttet && !avbryt.signal.aborted) {
+        setFeil("Rettssaken ble avbrutt før dommen falt. Prøv igjen.");
+        setStatus("feil");
+      }
     } catch (err) {
       if (avbryt.signal.aborted) return;
       setFeil(

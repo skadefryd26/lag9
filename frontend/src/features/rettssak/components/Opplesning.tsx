@@ -38,6 +38,43 @@ const AVSLUTNING: Record<Intensitet, string> = {
   kaos: "RETTEN ER HEVET! KAFFE! NÅ! Bjarne går hjem.",
 };
 
+// Små innskudd partene kaster inn mellom setningene når dramaet blir høyt.
+type Innskudd = { tekst: string; navn: string[]; pitch: number; rate: number };
+const INNSKUDD: Record<Rolle, Innskudd[]> = {
+  aktor: [
+    { tekst: "Innsigelse!", navn: ["Karen", "Samantha"], pitch: 1.6, rate: 1.4 },
+    { tekst: "Det står i vilkårene!", navn: ["Karen", "Samantha"], pitch: 1.5, rate: 1.5 },
+    { tekst: "Jeg vil snakke med sjefen!", navn: ["Superstar", "Karen"], pitch: 1.7, rate: 1.5 },
+    { tekst: "Hmpf.", navn: ["Whisper"], pitch: 1.2, rate: 1.0 },
+  ],
+  forsvarer: [
+    { tekst: "Ha ha ha!", navn: ["Jester", "Rocko"], pitch: 1.2, rate: 1.2 },
+    { tekst: "Bææææ!", navn: ["Bahh"], pitch: 1.0, rate: 1.0 },
+    { tekst: "Boing!", navn: ["Boing"], pitch: 1.0, rate: 1.0 },
+    { tekst: "Kom igjen a!", navn: ["Good News", "Rocko"], pitch: 1.1, rate: 1.1 },
+  ],
+  dommer: [
+    { tekst: "gjeeeesp", navn: ["Grandpa", "Ralph"], pitch: 0.3, rate: 0.5 },
+    { tekst: "kaffe … trenger kaffe …", navn: ["Whisper"], pitch: 0.8, rate: 0.8 },
+    { tekst: "Ding dong. Klokka er straks fire.", navn: ["Bells"], pitch: 1.0, rate: 1.0 },
+    { tekst: "Sukk.", navn: ["Bad News", "Grandpa"], pitch: 0.5, rate: 0.7 },
+  ],
+};
+
+const DRAMA_FRA_NIVÅ: Record<Intensitet, number> = { mild: 2, teatralsk: 6, kaos: 10 };
+
+// Stemmen blir gradvis lysere/raskere (aktor, forsvarer) eller dypere/tregere (Bjarne) med dramaet.
+function forsterk(s: Stemme, rolle: Rolle, d: number): Stemme {
+  const f = (d - 5) * 0.04;
+  const retning = rolle === "dommer" ? -1 : 1;
+  const klem = (v: number, lav: number, høy: number) => Math.min(høy, Math.max(lav, v));
+  return { ...s, pitch: klem(s.pitch * (1 + retning * f), 0.1, 2), rate: klem(s.rate * (1 + retning * f * 0.8), 0.5, 2) };
+}
+
+function setninger(t: string): string[] {
+  return (t.match(/[^.!?]+[.!?]*/g) ?? [t]).map((x) => x.trim()).filter(Boolean);
+}
+
 const NAVN: Record<Rolle, string> = { aktor: "Aktor", forsvarer: "Forsvarer", dommer: "Bjarne" };
 const IKON: Record<Intensitet, string> = { mild: "😐 mild", teatralsk: "🎭 teatralsk", kaos: "🤪 helt av skaftet" };
 
@@ -151,13 +188,25 @@ export function Opplesning({ innlegg, drama }: { innlegg: Innlegg[]; drama: Dram
     setLeser(true);
     for (const i of innlegg) {
       if (avbrutt()) return;
-      const s = STEMMER[i.rolle][nivå(i.rolle)];
-      const tekst = vaskTekst(i.tekst);
+      const d = overstyr === "auto" ? drama[i.rolle] : DRAMA_FRA_NIVÅ[overstyr];
+      const s = forsterk(STEMMER[i.rolle][nivå(i.rolle)], i.rolle, d);
+      let tekst = vaskTekst(i.tekst);
       if (i.rolle === "dommer" && (await spillBjarne(`${s.intro} ${tekst}`, avbrutt))) continue;
       if (avbrutt()) return;
+      if (i.rolle === "aktor" && d >= 10) tekst = tekst.toUpperCase();
       await snakk(ytring(s.intro, s));
-      if (avbrutt()) return;
-      await snakk(ytring(tekst, s));
+      // Fra drama 7 kaster parten inn innskudd; på 9–10 enda oftere.
+      const hvert = d >= 9 ? 2 : d >= 7 ? 3 : Infinity;
+      const biter = setninger(tekst);
+      for (let n = 0; n < biter.length; n++) {
+        if (avbrutt()) return;
+        await snakk(ytring(biter[n] ?? "", s));
+        if ((n + 1) % hvert === 0 && n < biter.length - 1) {
+          const liste = INNSKUDD[i.rolle];
+          const x = liste[Math.floor(Math.random() * liste.length)];
+          if (x && !avbrutt()) await snakk(ytring(x.tekst, { navn: x.navn, pitch: x.pitch, rate: x.rate, intro: "" }));
+        }
+      }
     }
     if (avbrutt()) return;
     if (!(await spillBjarne(AVSLUTNING[intensitet], avbrutt))) {

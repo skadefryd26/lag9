@@ -166,35 +166,44 @@ export function Rettssal() {
               {overraskFeil && <Alert color="red">{overraskFeil}</Alert>}
 
               <Stack gap="sm">
-                <Text fw={700} size="sm" c="tre.8">
+                <Text fw={700} size="sm" c="tre.9">
                   Dramanivå for hver rolle
                 </Text>
-                <Text size="sm" c="dimmed">
-                  1 = saksgjennomgang, 5 = tingrett, 10 = TV-rettssak
-                </Text>
-                {DRAMA_ROLLER.map(({ rolle, navn }) => (
-                  <Stack key={rolle} gap={4}>
-                    <Group justify="space-between">
-                      <Text fw={600} size="sm">
-                        {navn}
-                      </Text>
-                      <Badge color="gull.7" variant="light">
-                        {drama[rolle]}
-                      </Badge>
-                    </Group>
-                    <Slider
-                      aria-label={`Dramanivå for ${navn}`}
-                      min={1}
-                      max={10}
-                      step={1}
-                      value={drama[rolle]}
-                      onChange={(verdi) => setDrama((gjeldende) => ({ ...gjeldende, [rolle]: verdi }))}
-                      disabled={pågår}
-                      color="tre.7"
-                      marks={DRAMA_MERKER}
-                    />
-                  </Stack>
-                ))}
+                {DRAMA_ROLLER.map(({ rolle, navn }) => {
+                  const d = drama[rolle];
+                  return (
+                    <Stack key={rolle} gap={4}>
+                      <Group justify="space-between">
+                        <Text fw={700} size="sm" c="tre.9">
+                          {navn}
+                        </Text>
+                        <Badge
+                          size="lg"
+                          variant="filled"
+                          color={d >= 8 ? "red.8" : d >= 4 ? "tre.8" : "gray.7"}
+                          styles={{ label: { color: "#fff" } }}
+                        >
+                          {d}/10 · {d >= 8 ? "🔥 TV-rettssak" : d >= 4 ? "🎭 Tingretten" : "😴 Saksgjennomgang"}
+                        </Badge>
+                      </Group>
+                      <Box px="xl">
+                        <Slider
+                          aria-label={`Dramanivå for ${navn}`}
+                          min={1}
+                          max={10}
+                          step={1}
+                          value={d}
+                          onChange={(verdi) => setDrama((gjeldende) => ({ ...gjeldende, [rolle]: verdi }))}
+                          disabled={pågår}
+                          color="tre.7"
+                          marks={DRAMA_MERKER}
+                          mb="xl"
+                          styles={{ markLabel: { color: "#26160c", fontWeight: 700 } }}
+                        />
+                      </Box>
+                    </Stack>
+                  );
+                })}
               </Stack>
 
               <Button size="lg" color="tre.8" onClick={startRettssak} loading={pågår} fullWidth>

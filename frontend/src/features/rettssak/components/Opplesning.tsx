@@ -4,8 +4,7 @@ import type { Innlegg } from "../hooks/useRettssak";
 import type { Drama, Rolle } from "../types/kontrakt";
 
 // Leser hele rettssaken høyt med nettleserens innebygde talesyntese. Ingen backend trengs.
-// Stemmene finnes på Mac. Mangler en stemme (f.eks. på Windows), brukes norsk stemme med
-// forvrengt tonehøyde i stedet.
+// Bare norske stemmer (Nora på Mac). Partene skilles med tonehøyde, tempo og innskudd.
 
 export type Intensitet = "mild" | "teatralsk" | "kaos";
 
@@ -14,21 +13,22 @@ type Stemme = { navn: string[]; pitch: number; rate: number; intro: string };
 // Hver part har tre nivåer, og hvert nivå følger partens egen drama-skyvebryter.
 // Stemmene er valgt etter personligheten: aktor er en prippen «Karen», forsvareren er
 // en cocky sjarmør, og Bjarne er en utslitt dommer som helst vil hjem.
+// Alle stemmer er norske. Partene skilles med tonehøyde og tempo.
 const STEMMER: Record<Rolle, Record<Intensitet, Stemme>> = {
   aktor: {
-    mild: { navn: ["Nora"], pitch: 1.15, rate: 1.05, intro: "Ærede rett. Med all respekt." },
-    teatralsk: { navn: ["Karen", "Samantha", "Moira"], pitch: 1.25, rate: 1.15, intro: "Unnskyld meg, ærede rett! Det står faktisk i vilkårene." },
-    kaos: { navn: ["Superstar", "Karen", "Zarvox"], pitch: 1.6, rate: 1.4, intro: "JEG VIL SNAKKE MED SJEFEN DIN! INNSIGELSE! MOT ALT!" },
+    mild: { navn: ["Nora"], pitch: 1.3, rate: 1.05, intro: "Ærede rett. Med all respekt." },
+    teatralsk: { navn: ["Nora"], pitch: 1.6, rate: 1.2, intro: "Unnskyld meg, ærede rett! Det står faktisk i vilkårene." },
+    kaos: { navn: ["Nora"], pitch: 2.0, rate: 1.45, intro: "JEG VIL SNAKKE MED SJEFEN DIN! INNSIGELSE! MOT ALT!" },
   },
   forsvarer: {
-    mild: { navn: ["Nora"], pitch: 0.95, rate: 1.0, intro: "Ærede rett." },
-    teatralsk: { navn: ["Rocko", "Eddy", "Fred"], pitch: 0.9, rate: 1.1, intro: "Heisann, ærede rett! Dette blir lett." },
-    kaos: { navn: ["Good News", "Jester", "Wobble"], pitch: 1.1, rate: 1.15, intro: "Kom igjen a dommer! Dette her er bare tull!" },
+    mild: { navn: ["Nora"], pitch: 0.85, rate: 1.0, intro: "Ærede rett." },
+    teatralsk: { navn: ["Nora"], pitch: 0.75, rate: 1.15, intro: "Heisann, ærede rett! Dette blir lett." },
+    kaos: { navn: ["Nora"], pitch: 1.1, rate: 1.35, intro: "Kom igjen a dommer! Dette her er bare tull!" },
   },
   dommer: {
-    mild: { navn: ["Nora"], pitch: 0.6, rate: 0.85, intro: "Sukk. Dommen." },
-    teatralsk: { navn: ["Grandpa", "Ralph", "Reed"], pitch: 0.4, rate: 0.7, intro: "Hhhhhhhhh. Sukk. Må jeg virkelig? Greit. Dommen." },
-    kaos: { navn: ["Cellos", "Bad News", "Organ"], pitch: 0.8, rate: 0.9, intro: "Hhhhhhhhhhhhhhhhh. Bjarne synger dommen. Hør godt etter." },
+    mild: { navn: ["Nora"], pitch: 0.5, rate: 0.85, intro: "Sukk. Dommen." },
+    teatralsk: { navn: ["Nora"], pitch: 0.3, rate: 0.7, intro: "Hhhhhhhhh. Sukk. Må jeg virkelig? Greit. Dommen." },
+    kaos: { navn: ["Nora"], pitch: 0.1, rate: 0.55, intro: "Hhhhhhhhhhhhhhhhh. Nei. Nei. Greit da. Dommen." },
   },
 };
 
@@ -42,22 +42,22 @@ const AVSLUTNING: Record<Intensitet, string> = {
 type Innskudd = { tekst: string; navn: string[]; pitch: number; rate: number };
 const INNSKUDD: Record<Rolle, Innskudd[]> = {
   aktor: [
-    { tekst: "Innsigelse!", navn: ["Karen", "Samantha"], pitch: 1.6, rate: 1.4 },
-    { tekst: "Det står i vilkårene!", navn: ["Karen", "Samantha"], pitch: 1.5, rate: 1.5 },
-    { tekst: "Jeg vil snakke med sjefen!", navn: ["Superstar", "Karen"], pitch: 1.7, rate: 1.5 },
-    { tekst: "Hmpf.", navn: ["Whisper"], pitch: 1.2, rate: 1.0 },
+    { tekst: "Innsigelse!", navn: ["Nora"], pitch: 1.6, rate: 1.4 },
+    { tekst: "Det står i vilkårene!", navn: ["Nora"], pitch: 1.5, rate: 1.5 },
+    { tekst: "Jeg vil snakke med sjefen!", navn: ["Nora"], pitch: 1.7, rate: 1.5 },
+    { tekst: "Hmpf.", navn: ["Nora"], pitch: 1.2, rate: 1.0 },
   ],
   forsvarer: [
-    { tekst: "Ha ha ha!", navn: ["Jester", "Rocko"], pitch: 1.2, rate: 1.2 },
-    { tekst: "Bææææ!", navn: ["Bahh"], pitch: 1.0, rate: 1.0 },
-    { tekst: "Boing!", navn: ["Boing"], pitch: 1.0, rate: 1.0 },
-    { tekst: "Kom igjen a!", navn: ["Good News", "Rocko"], pitch: 1.1, rate: 1.1 },
+    { tekst: "Ha ha ha!", navn: ["Nora"], pitch: 1.2, rate: 1.2 },
+    { tekst: "Bææææ!", navn: ["Nora"], pitch: 1.0, rate: 1.0 },
+    { tekst: "Boing!", navn: ["Nora"], pitch: 1.0, rate: 1.0 },
+    { tekst: "Kom igjen a!", navn: ["Nora"], pitch: 1.1, rate: 1.1 },
   ],
   dommer: [
-    { tekst: "gjeeeesp", navn: ["Grandpa", "Ralph"], pitch: 0.3, rate: 0.5 },
-    { tekst: "kaffe … trenger kaffe …", navn: ["Whisper"], pitch: 0.8, rate: 0.8 },
-    { tekst: "Ding dong. Klokka er straks fire.", navn: ["Bells"], pitch: 1.0, rate: 1.0 },
-    { tekst: "Sukk.", navn: ["Bad News", "Grandpa"], pitch: 0.5, rate: 0.7 },
+    { tekst: "gjeeeesp", navn: ["Nora"], pitch: 0.3, rate: 0.5 },
+    { tekst: "kaffe … trenger kaffe …", navn: ["Nora"], pitch: 0.8, rate: 0.8 },
+    { tekst: "Ding dong. Klokka er straks fire.", navn: ["Nora"], pitch: 1.0, rate: 1.0 },
+    { tekst: "Sukk.", navn: ["Nora"], pitch: 0.5, rate: 0.7 },
   ],
 };
 
@@ -90,13 +90,19 @@ function vaskTekst(t: string) {
   return t.replace(/[*_#>`]/g, "").replace(/\s+/g, " ").trim();
 }
 
+// Bare norske stemmer. Ønskede navn brukes bare hvis de faktisk er norske
+// (f.eks. om noen har lastet ned flere norske stemmer); ellers første norske stemme.
+function erNorsk(v: SpeechSynthesisVoice) {
+  return /^(nb|no|nn)([-_]|$)/i.test(v.lang);
+}
+
 function finnStemme(navn: string[]): SpeechSynthesisVoice | undefined {
-  const alle = window.speechSynthesis.getVoices();
+  const norske = window.speechSynthesis.getVoices().filter(erNorsk);
   for (const n of navn) {
-    const treff = alle.find((v) => v.name === n || v.name.startsWith(`${n} (`));
+    const treff = norske.find((v) => v.name === n || v.name.startsWith(`${n} (`));
     if (treff) return treff;
   }
-  return alle.find((v) => /^(nb|no|nn)/i.test(v.lang)) ?? alle.find((v) => /^(da|sv)/i.test(v.lang));
+  return norske[0];
 }
 
 function ytring(tekst: string, s: Stemme) {

@@ -1,3 +1,4 @@
+import { randomInt } from "node:crypto";
 import type { GatewayKall } from "../../../clients/aiGateway.js";
 import { aktorInstruks } from "../prompts/aktor.js";
 import { bjarneAvbrytelseInstruks, bjarneInstruks } from "../prompts/bjarne.js";
@@ -22,6 +23,17 @@ const AVBRYTELSER_ETTER: Partial<Record<Steg, Steg>> = {
   forsvarerInnledning: "bjarneEtterForsvarerInnledning",
   forsvarerProsedyre: "bjarneEtterForsvarerProsedyre",
 };
+
+const SAKSTYPER = [
+  "Reise: forsinket bagasje har ført til nødvendige innkjøp på reisemålet",
+  "Reise: en dokumentert hendelse gjør at en bestilt tur må avbestilles",
+  "Innbo: en plutselig hendelse skader møbler, klær eller elektronikk hjemme",
+  "Bolig: en konkret vann-, storm- eller bruddskade rammer boligen",
+  "Bil eller kjøretøy: en kollisjon, parkeringsskade eller uventet skadehendelse",
+  "Ansvar: kunden eller et kjæledyr skader en annens eiendel",
+  "Dyr: en uventet hendelse fører til veterinærbehandling for et kjæledyr",
+  "Båt eller fritid: en hendelse skader båt, sykkel eller sports- og turutstyr",
+] as const;
 
 const STEG: readonly {
   steg: Steg;
@@ -83,8 +95,9 @@ export async function* førRettssak(
 }
 
 export function finnPåSak(dramanivå: number, gateway: GatewayKall): Promise<string> {
+  const sakstype = SAKSTYPER[randomInt(SAKSTYPER.length)];
   return gateway({
     instructions: rettsskriverInstruks() + dramaInstruks(dramanivå),
-    input: "Finn på en ny sak til dagens rettsliste.",
+    input: `Finn på en ny sak til dagens rettsliste. Forsikringstype for denne saken: ${sakstype}.`,
   });
 }

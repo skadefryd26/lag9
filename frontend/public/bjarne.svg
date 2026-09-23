@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 440" role="img" aria-label="Karikatur av dommer Bjarne">
+  <title>Dommer Bjarne</title>
+  <defs>
+    <radialGradient id="hud" cx="50%" cy="40%" r="60%">
+      <stop offset="0" stop-color="#ffd9bf"/>
+      <stop offset="1" stop-color="#f0b48f"/>
+    </radialGradient>
+    <linearGradient id="kappe" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2b1a10"/>
+      <stop offset="1" stop-color="#140b06"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Dommerkappe -->
+  <path d="M60 440 C70 350 120 320 200 318 C280 320 330 350 340 440 Z" fill="url(#kappe)"/>
+  <!-- Hvit krage / bånd -->
+  <path d="M170 322 L200 360 L230 322 Z" fill="#fff"/>
+  <rect x="188" y="352" width="10" height="44" rx="3" fill="#fff"/>
+  <rect x="202" y="352" width="10" height="44" rx="3" fill="#fff"/>
+
+  <!-- Parykk bak -->
+  <g fill="#f4f1ea" stroke="#cfc8b8" stroke-width="3">
+    <circle cx="92" cy="200" r="30"/><circle cx="88" cy="250" r="30"/><circle cx="96" cy="298" r="28"/>
+    <circle cx="308" cy="200" r="30"/><circle cx="312" cy="250" r="30"/><circle cx="304" cy="298" r="28"/>
+  </g>
+
+  <!-- Hals -->
+  <rect x="172" y="280" width="56" height="48" fill="#f0b48f"/>
+
+  <!-- Stort hode -->
+  <ellipse cx="200" cy="200" rx="108" ry="118" fill="url(#hud)" stroke="#c98b66" stroke-width="3"/>
+
+  <!-- Ører -->
+  <ellipse cx="94" cy="210" rx="16" ry="24" fill="#f0b48f" stroke="#c98b66" stroke-width="3"/>
+  <ellipse cx="306" cy="210" rx="16" ry="24" fill="#f0b48f" stroke="#c98b66" stroke-width="3"/>
+
+  <!-- Parykk topp -->
+  <g fill="#f4f1ea" stroke="#cfc8b8" stroke-width="3">
+    <circle cx="120" cy="120" r="30"/><circle cx="160" cy="92" r="32"/><circle cx="200" cy="84" r="34"/>
+    <circle cx="240" cy="92" r="32"/><circle cx="280" cy="120" r="30"/><circle cx="104" cy="160" r="26"/>
+    <circle cx="296" cy="160" r="26"/>
+  </g>
+
+  <!-- Øyenbryn: venstre flatt og surt, høyre løftet og arrogant -->
+  <path d="M132 170 Q160 162 186 172" stroke="#5a3a24" stroke-width="9" fill="none" stroke-linecap="round"/>
+  <path d="M216 158 Q246 134 274 150" stroke="#5a3a24" stroke-width="9" fill="none" stroke-linecap="round"/>
+
+  <!-- Øyne, halvlukket og lei -->
+  <ellipse cx="160" cy="194" rx="20" ry="14" fill="#fff" stroke="#3a2314" stroke-width="3"/>
+  <ellipse cx="244" cy="192" rx="20" ry="16" fill="#fff" stroke="#3a2314" stroke-width="3"/>
+  <circle cx="166" cy="198" r="7" fill="#3a2314"/>
+  <circle cx="250" cy="196" r="7" fill="#3a2314"/>
+  <circle cx="168" cy="196" r="2" fill="#fff"/>
+  <circle cx="252" cy="194" r="2" fill="#fff"/>
+  <!-- Tunge øyelokk -->
+  <path d="M139 190 Q160 176 181 190 L181 184 Q160 170 139 184 Z" fill="#f0b48f" stroke="#3a2314" stroke-width="3"/>
+  <path d="M223 186 Q244 174 265 186 L265 181 Q244 168 223 181 Z" fill="#f0b48f" stroke="#3a2314" stroke-width="3"/>
+
+  <!-- Stor nese, litt til værs -->
+  <path d="M200 200 Q190 240 184 252 Q200 266 222 254 Q214 236 206 200" fill="#eaa37c" stroke="#c98b66" stroke-width="3"/>
+
+  <!-- Røde kinn -->
+  <circle cx="138" cy="238" r="16" fill="#ff8f8f" opacity="0.35"/>
+  <circle cx="262" cy="238" r="16" fill="#ff8f8f" opacity="0.35"/>
+
+  <!-- Bart -->
+  <path d="M150 272 Q176 256 200 270 Q224 256 250 272 Q236 284 200 278 Q164 284 150 272 Z" fill="#8a5a3a"/>
+
+  <!-- Skjevt, selvgodt smil -->
+  <path d="M168 292 Q200 302 238 286" stroke="#7a2f22" stroke-width="6" fill="none" stroke-linecap="round"/>
+  <path d="M236 284 Q244 282 246 290" stroke="#7a2f22" stroke-width="5" fill="none" stroke-linecap="round"/>
+
+  <!-- Kaffekopp -->
+  <g transform="translate(262 330) rotate(-8)">
+    <path d="M0 0 L70 0 L62 78 Q35 88 8 78 Z" fill="#fff" stroke="#3a2314" stroke-width="4"/>
+    <path d="M68 16 Q96 20 90 44 Q86 62 62 58" fill="none" stroke="#3a2314" stroke-width="7"/>
+    <rect x="-2" y="-6" width="74" height="10" rx="4" fill="#6b3f22"/>
+    <text x="35" y="50" font-family="Georgia, serif" font-size="15" font-weight="700" text-anchor="middle" fill="#8b1e1e">SJEF</text>
+    <path d="M18 -16 q-8 -12 0 -24 q8 -12 0 -24" stroke="#b09078" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <path d="M38 -16 q-8 -12 0 -24 q8 -12 0 -24" stroke="#b09078" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <path d="M58 -16 q-8 -12 0 -24 q8 -12 0 -24" stroke="#b09078" stroke-width="4" fill="none" stroke-linecap="round"/>
+  </g>
+  <!-- Hånd som holder koppen -->
+  <ellipse cx="258" cy="410" rx="24" ry="18" fill="#f0b48f" stroke="#c98b66" stroke-width="3"/>
+
+  <!-- Snakkeboble -->
+  <g transform="translate(14 18)">
+    <path d="M0 0 H120 Q132 0 132 12 V48 Q132 60 120 60 H40 L24 78 L28 60 H12 Q0 60 0 48 V12 Q0 0 12 0 Z" fill="#fff" stroke="#3a2314" stroke-width="3"/>
+    <text x="66" y="28" font-family="Georgia, serif" font-size="17" font-weight="700" text-anchor="middle" fill="#3a2314">*sukk*</text>
+    <text x="66" y="48" font-family="Georgia, serif" font-size="12" font-style="italic" text-anchor="middle" fill="#3a2314">kl. 15:55…</text>
+  </g>
+</svg>

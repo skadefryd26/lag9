@@ -147,6 +147,12 @@ export function Rettssal() {
             <Text c="tre.1" fs="italic" ta="center">
               Retten er satt. Dommeren har egentlig gått for dagen.
             </Text>
+            <img
+              src="/bjarne.svg"
+              alt="Dommer Bjarne med parykk og kaffekopp"
+              className="bjarne-vugg"
+              style={{ width: 170, marginTop: 8, filter: "drop-shadow(0 6px 10px rgba(0,0,0,0.5))" }}
+            />
           </Stack>
 
           <Paper p="lg" withBorder style={{ background: "#f5ede6", borderColor: "#c9a227", borderWidth: 3 }}>
@@ -247,7 +253,13 @@ export function Rettssal() {
                 }}
               >
                 <Group mb="sm" gap="sm">
-                  <Avatar color={r.farge} radius="xl" size="lg">
+                  <Avatar
+                    color={r.farge}
+                    radius="xl"
+                    size="lg"
+                    src={i.rolle === "dommer" ? "/bjarne.svg" : undefined}
+                    styles={i.rolle === "dommer" ? { image: { objectFit: "cover", objectPosition: "50% 30%", background: "#fdf8e6" } } : undefined}
+                  >
                     {r.ikon}
                   </Avatar>
                   <Stack gap={0}>

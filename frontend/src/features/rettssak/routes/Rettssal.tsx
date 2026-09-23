@@ -151,7 +151,7 @@ export function Rettssal() {
               src="/bjarne.svg"
               alt="Dommer Bjarne med parykk og kaffekopp"
               className="bjarne-vugg"
-              style={{ width: 170, marginTop: 8, filter: "drop-shadow(0 6px 10px rgba(0,0,0,0.5))" }}
+              style={{ width: 280, maxWidth: "80%", marginTop: 8, filter: "drop-shadow(0 6px 10px rgba(0,0,0,0.5))" }}
             />
           </Stack>
 

@@ -18,6 +18,7 @@ import {
 import { useEffect, useState } from "react";
 import { ApiFeil } from "../api/rettssakApi";
 import { Bakgrunnsmusikk } from "../components/Bakgrunnsmusikk";
+import { BuetTittel } from "../components/BuetTittel";
 import { Diktering } from "../components/Diktering";
 import { Opplesning } from "../components/Opplesning";
 import { feilTekst, useRettssak } from "../hooks/useRettssak";
@@ -155,12 +156,9 @@ export function Rettssal() {
             <Text c="gull.4" tt="uppercase" fw={700} style={{ letterSpacing: 6 }}>
               ⚖️ Skaderetten ⚖️
             </Text>
-            <Title order={1} c="gull.2" ta="center" style={{ textShadow: "2px 2px 0 #000" }}>
-              Bjarne mot alle
-            </Title>
-            <Text c="tre.1" fs="italic" ta="center">
-              Retten er satt. Dommeren har egentlig gått for dagen.
-            </Text>
+            <h1 style={{ margin: 0, width: "100%" }}>
+              <BuetTittel />
+            </h1>
             <Group justify="center" align="flex-end" gap="md" wrap="nowrap" mt="sm" w="100%">
               <Stack gap={2} align="center" style={{ flex: "0 1 200px" }}>
                 <img src="/aktor.svg" alt="Aktor, en prippen jurist med perlekjede og hevet pekefinger" className="figur-vugg" style={{ width: "100%", filter: SKYGGE }} />

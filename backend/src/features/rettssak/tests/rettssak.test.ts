@@ -63,6 +63,10 @@ describe("karakterprompter", () => {
     expect(forsvarerInstruks("innledning")).toContain("kundens side");
     expect(bjarneInstruks()).toContain("INNVILGES, AVSLÅS eller DELVIS INNVILGES");
     expect(rettsskriverInstruks()).toContain("2–4 setninger");
+    expect(rettsskriverInstruks()).toContain("Reise");
+    expect(rettsskriverInstruks()).toContain("Innbo");
+    expect(rettsskriverInstruks()).toContain("Bolig");
+    expect(rettsskriverInstruks()).toContain("robotstøvsuger");
   });
 
   it("ber prosedyrene svare på riktig tidligere innlegg", () => {
@@ -192,5 +196,8 @@ describe("førRettssak", () => {
     const gateway = vi.fn<GatewayKall>(async () => "En sak");
     await expect(finnPåSak(9, gateway)).resolves.toBe("En sak");
     expect(gateway.mock.calls[0]?.[0].instructions).toContain("9 av 10");
+    expect(gateway.mock.calls[0]?.[0].input).toMatch(
+      /Forsikringstype for denne saken: (Reise|Innbo|Bolig|Bil eller kjøretøy|Ansvar|Dyr|Båt eller fritid):/,
+    );
   });
 });

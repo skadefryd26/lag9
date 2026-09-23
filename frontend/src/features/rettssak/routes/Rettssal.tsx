@@ -17,6 +17,7 @@ import {
 } from "@mantine/core";
 import { useEffect, useState } from "react";
 import { ApiFeil } from "../api/rettssakApi";
+import { Bakgrunnsmusikk } from "../components/Bakgrunnsmusikk";
 import { Diktering } from "../components/Diktering";
 import { Opplesning } from "../components/Opplesning";
 import { feilTekst, useRettssak } from "../hooks/useRettssak";
@@ -229,6 +230,8 @@ export function Rettssal() {
                   );
                 })}
               </Stack>
+
+              <Bakgrunnsmusikk drama={drama} />
 
               <Button size="lg" color="tre.8" onClick={startRettssak} loading={pågår} fullWidth>
                 🔨 Start rettssaken

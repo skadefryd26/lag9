@@ -15,14 +15,14 @@ import {
   Textarea,
   Title,
 } from "@mantine/core";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { ApiFeil } from "../api/rettssakApi";
-import { Bakgrunnsmusikk } from "../components/Bakgrunnsmusikk";
+import { Bakgrunnsmusikk, useBakgrunnsmusikk } from "../components/Bakgrunnsmusikk";
 import { BuetTittel } from "../components/BuetTittel";
 import { Diktering } from "../components/Diktering";
 import { Aktor, Forsvarer } from "../components/Karakterer";
 import { Opplesning } from "../components/Opplesning";
-import { Rettsscene } from "../components/Rettsscene";
+import { Rettssalvisning } from "../components/Rettssalvisning";
 import { feilTekst, useRettssak } from "../hooks/useRettssak";
 import { useOverrask } from "../hooks/useOverrask";
 import {
@@ -111,6 +111,9 @@ export function Rettssal() {
   });
   const [valideringsfeil, setValideringsfeil] = useState<string | null>(null);
   const rettssak = useRettssak();
+  const musikk = useBakgrunnsmusikk(drama);
+  const [visSal, setVisSal] = useState(false);
+  const lukkSal = useCallback(() => setVisSal(false), []);
   const overrask = useOverrask((sak) => {
     setSaksTekst(sak);
     setValideringsfeil(null);
@@ -132,6 +135,7 @@ export function Rettssal() {
       return;
     }
     setValideringsfeil(null);
+    setVisSal(true);
     void rettssak.start(saksTekst, drama);
   };
 
@@ -268,7 +272,7 @@ export function Rettssal() {
                 })}
               </Stack>
 
-              <Bakgrunnsmusikk drama={drama} />
+              <Bakgrunnsmusikk musikk={musikk} />
 
               <Button size="lg" color="tre.8" onClick={startRettssak} loading={pågår} fullWidth>
                 🔨 Start rettssaken
@@ -277,11 +281,37 @@ export function Rettssal() {
           </Paper>
 
           {rettssak.status !== "klar" && (
-            <Rettsscene
-              innlegg={rettssak.innlegg}
-              titler={TITLER}
-              nesteRolle={pågår && nesteSteg ? rolleForSteg(nesteSteg) : null}
-            />
+            <>
+              {!visSal && (
+                <Button size="lg" color="gull.6" c="tre.9" onClick={() => setVisSal(true)} fullWidth>
+                  🎭 {pågår ? "Tilbake til rettssalen" : "Se rettssaken igjen"}
+                </Button>
+              )}
+              <Rettssalvisning
+                åpen={visSal}
+                onLukk={lukkSal}
+                innlegg={rettssak.innlegg}
+                titler={TITLER}
+                nesteRolle={pågår && nesteSteg ? rolleForSteg(nesteSteg) : null}
+                musikk={musikk}
+                bunn={
+                  !visSal ? null : rettssak.status === "ferdig" ? (
+                    <>
+                      <Opplesning innlegg={rettssak.innlegg} drama={drama} />
+                      <Text c="gull.3" ta="center" fw={700}>
+                        Retten er hevet. Bjarne er allerede på vei hjem.
+                      </Text>
+                    </>
+                  ) : rettssak.feil ? (
+                    <Alert color="red" title="Retten er midlertidig suspendert" variant="filled" w="100%">
+                      {rettssak.feil}
+                    </Alert>
+                  ) : pågår && nesteSteg ? (
+                    <Ventetekst steg={nesteSteg} />
+                  ) : null
+                }
+              />
+            </>
           )}
 
           {(rettssak.status === "ferdig" || rettssak.status === "feil") && rettssak.innlegg.length > 0 && (
@@ -337,9 +367,9 @@ export function Rettssal() {
             </details>
           )}
 
-          {pågår && nesteSteg && <Ventetekst steg={nesteSteg} />}
+          {pågår && nesteSteg && !visSal && <Ventetekst steg={nesteSteg} />}
 
-          {rettssak.status === "ferdig" && (
+          {rettssak.status === "ferdig" && !visSal && (
             <>
               <Opplesning innlegg={rettssak.innlegg} drama={drama} />
               <Text c="gull.3" ta="center" fw={700}>

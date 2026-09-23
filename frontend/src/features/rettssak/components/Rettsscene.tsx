@@ -14,10 +14,12 @@ type Props = {
   titler: Record<Innlegg["steg"], string>;
   /** Rollen som står for tur mens AI-en jobber, ellers null. */
   nesteRolle: Rolle | null;
+  /** Når false, lytter ikke scenen på piltastene. */
+  aktiv?: boolean;
 };
 
 // Spiller av innleggene ett og ett, med skrivemaskineffekt, selv om de kommer raskere fra backend.
-export function Rettsscene({ innlegg, titler, nesteRolle }: Props) {
+export function Rettsscene({ innlegg, titler, nesteRolle, aktiv = true }: Props) {
   const [indeks, setIndeks] = useState(0);
   const [vist, setVist] = useState(0);
   const [lengstSett, setLengstSett] = useState(0);
@@ -61,6 +63,7 @@ export function Rettsscene({ innlegg, titler, nesteRolle }: Props) {
 
   // Piltaster.
   useEffect(() => {
+    if (!aktiv) return;
     const tast = (e: KeyboardEvent) => {
       const mål = e.target as HTMLElement | null;
       if (mål && (mål.tagName === "TEXTAREA" || mål.tagName === "INPUT")) return;

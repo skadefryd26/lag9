@@ -17,6 +17,7 @@ import {
 } from "@mantine/core";
 import { useEffect, useState } from "react";
 import { ApiFeil } from "../api/rettssakApi";
+import { Opplesning } from "../components/Opplesning";
 import { feilTekst, useRettssak } from "../hooks/useRettssak";
 import { useOverrask } from "../hooks/useOverrask";
 import { STEG_REKKEFOLGE, type Rolle, type Steg } from "../types/kontrakt";
@@ -201,9 +202,12 @@ export function Rettssal() {
           {pågår && nesteSteg && <Ventetekst steg={nesteSteg} />}
 
           {rettssak.status === "ferdig" && (
-            <Text c="gull.3" ta="center" fw={700}>
-              Retten er hevet. Bjarne er allerede på vei hjem.
-            </Text>
+            <>
+              <Opplesning innlegg={rettssak.innlegg} drama={drama} />
+              <Text c="gull.3" ta="center" fw={700}>
+                Retten er hevet. Bjarne er allerede på vei hjem.
+              </Text>
+            </>
           )}
 
           {rettssak.feil && (

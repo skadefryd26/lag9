@@ -1,12 +1,27 @@
 import type { GatewayKall } from "../../../clients/aiGateway.js";
 import { aktorInstruks } from "../prompts/aktor.js";
-import { bjarneInstruks } from "../prompts/bjarne.js";
+import { bjarneAvbrytelseInstruks, bjarneInstruks } from "../prompts/bjarne.js";
 import { dramaInstruks } from "../prompts/drama.js";
 import { forsvarerInstruks } from "../prompts/forsvarer.js";
 import { rettsskriverInstruks } from "../prompts/rettsskriver.js";
 import type { Drama, Rolle, Steg } from "../types/kontrakt.js";
 
 type Innlegg = { steg: Steg; rolle: Rolle; tekst: string };
+
+const TITLER: Record<Steg, string> = {
+  aktorInnledning: "Aktors innledningsforedrag",
+  forsvarerInnledning: "Forsvarerens innledningsforedrag",
+  bjarneEtterForsvarerInnledning: "Bjarne bryter inn",
+  aktorProsedyre: "Aktors prosedyre",
+  forsvarerProsedyre: "Forsvarerens prosedyre",
+  bjarneEtterForsvarerProsedyre: "Bjarne bryter inn",
+  dom: "Dommer Bjarnes dom",
+};
+
+const AVBRYTELSER_ETTER: Partial<Record<Steg, Steg>> = {
+  forsvarerInnledning: "bjarneEtterForsvarerInnledning",
+  forsvarerProsedyre: "bjarneEtterForsvarerProsedyre",
+};
 
 const STEG: readonly {
   steg: Steg;
@@ -24,7 +39,7 @@ const STEG: readonly {
 
 export function byggInput(saksTekst: string, tidligere: readonly Innlegg[], nesteTittel: string): string {
   const referat = tidligere.map((i) => {
-    const tittel = STEG.find((s) => s.steg === i.steg)?.tittel ?? i.steg;
+    const tittel = TITLER[i.steg];
     return `### ${tittel}\n${i.tekst}`;
   });
   return [
@@ -52,6 +67,18 @@ export async function* førRettssak(
     const innlegg = { steg: s.steg, rolle: s.rolle, tekst };
     tidligere.push(innlegg);
     yield innlegg;
+
+    const avbrytelsessteg = drama.dommer === 10 ? AVBRYTELSER_ETTER[s.steg] : undefined;
+    if (!avbrytelsessteg) continue;
+    if (signal?.aborted) return;
+
+    const kommentar = await gateway({
+      instructions: bjarneAvbrytelseInstruks() + dramaInstruks(drama.dommer),
+      input: byggInput(saksTekst, tidligere, TITLER[avbrytelsessteg]),
+    });
+    const avbrytelse = { steg: avbrytelsessteg, rolle: "dommer" as const, tekst: kommentar };
+    tidligere.push(avbrytelse);
+    yield avbrytelse;
   }
 }
 

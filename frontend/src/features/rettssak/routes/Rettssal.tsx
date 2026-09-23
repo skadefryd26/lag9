@@ -21,13 +21,21 @@ import { Diktering } from "../components/Diktering";
 import { Opplesning } from "../components/Opplesning";
 import { feilTekst, useRettssak } from "../hooks/useRettssak";
 import { useOverrask } from "../hooks/useOverrask";
-import { STEG_REKKEFOLGE, type Drama, type Rolle, type Steg } from "../types/kontrakt";
+import {
+  STEG_REKKEFOLGE,
+  STEG_REKKEFOLGE_MED_BJARNE_AVBRYTELSER,
+  type Drama,
+  type Rolle,
+  type Steg,
+} from "../types/kontrakt";
 
 const TITLER: Record<Steg, string> = {
   aktorInnledning: "Aktors innledningsforedrag",
   forsvarerInnledning: "Forsvarerens innledningsforedrag",
+  bjarneEtterForsvarerInnledning: "Dommer Bjarne bryter inn",
   aktorProsedyre: "Aktors prosedyre",
   forsvarerProsedyre: "Forsvarerens prosedyre",
+  bjarneEtterForsvarerProsedyre: "Dommer Bjarne bryter inn",
   dom: "Dommer Bjarnes dom",
 };
 
@@ -41,8 +49,10 @@ const ROLLER: Record<Rolle, { navn: string; ikon: string; farge: string; kant: s
 const VENTETEKSTER: Record<Steg, string[]> = {
   aktorInnledning: ["Aktor retter på slipset …", "Aktor blar dramatisk i papirene …"],
   forsvarerInnledning: ["Forsvareren ser rørt ut over egen argumentasjon …", "Forsvareren øver på et sukk …"],
+  bjarneEtterForsvarerInnledning: ["Bjarne bryter inn …", "Bjarne finner fram et uttrykk …"],
   aktorProsedyre: ["Aktor finner fram flere paragrafer …", "Aktor peker anklagende mot ingenting …"],
   forsvarerProsedyre: ["Forsvareren tørker en tåre …", "Forsvareren vurderer å rope «innsigelse» …"],
+  bjarneEtterForsvarerProsedyre: ["Bjarne bryter inn …", "Bjarne finner fram et uttrykk …"],
   dom: ["Bjarne ser på klokka. Den er 15:57 …", "Bjarne henter påfyll før dommen …", "Bjarne sukker tungt fra dommerbenken …"],
 };
 
@@ -93,7 +103,8 @@ export function Rettssal() {
   });
 
   const pågår = rettssak.status === "pågår";
-  const nesteSteg = STEG_REKKEFOLGE[rettssak.innlegg.length];
+  const rekkefølge = drama.dommer === 10 ? STEG_REKKEFOLGE_MED_BJARNE_AVBRYTELSER : STEG_REKKEFOLGE;
+  const nesteSteg = rekkefølge[rettssak.innlegg.length];
   const overraskFeil =
     overrask.error instanceof ApiFeil
       ? feilTekst(overrask.error.kode, overrask.error.message)

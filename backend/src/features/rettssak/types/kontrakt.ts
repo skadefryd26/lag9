@@ -13,8 +13,10 @@ export type Rolle = "aktor" | "forsvarer" | "dommer";
 export type Steg =
   | "aktorInnledning"
   | "forsvarerInnledning"
+  | "bjarneEtterForsvarerInnledning"
   | "aktorProsedyre"
   | "forsvarerProsedyre"
+  | "bjarneEtterForsvarerProsedyre"
   | "dom";
 
 export const STEG_REKKEFOLGE: readonly Steg[] = [
@@ -22,6 +24,16 @@ export const STEG_REKKEFOLGE: readonly Steg[] = [
   "forsvarerInnledning",
   "aktorProsedyre",
   "forsvarerProsedyre",
+  "dom",
+] as const;
+
+export const STEG_REKKEFOLGE_MED_BJARNE_AVBRYTELSER: readonly Steg[] = [
+  "aktorInnledning",
+  "forsvarerInnledning",
+  "bjarneEtterForsvarerInnledning",
+  "aktorProsedyre",
+  "forsvarerProsedyre",
+  "bjarneEtterForsvarerProsedyre",
   "dom",
 ] as const;
 

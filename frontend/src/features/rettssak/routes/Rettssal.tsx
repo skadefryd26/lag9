@@ -21,6 +21,7 @@ import { Bakgrunnsmusikk } from "../components/Bakgrunnsmusikk";
 import { BuetTittel } from "../components/BuetTittel";
 import { Diktering } from "../components/Diktering";
 import { Opplesning } from "../components/Opplesning";
+import { Rettsscene } from "../components/Rettsscene";
 import { feilTekst, useRettssak } from "../hooks/useRettssak";
 import { useOverrask } from "../hooks/useOverrask";
 import {
@@ -59,6 +60,12 @@ const VENTETEKSTER: Record<Steg, string[]> = {
   bjarneEtterForsvarerProsedyre: ["Bjarne bryter inn …", "Bjarne finner fram et uttrykk …"],
   dom: ["Bjarne ser på klokka. Den er 15:57 …", "Bjarne henter påfyll før dommen …", "Bjarne sukker tungt fra dommerbenken …"],
 };
+
+function rolleForSteg(steg: Steg): Rolle {
+  if (steg.startsWith("aktor")) return "aktor";
+  if (steg.startsWith("forsvarer")) return "forsvarer";
+  return "dommer";
+}
 
 const DRAMA_MERKER = [
   { value: 1, label: "1" },
@@ -266,45 +273,60 @@ export function Rettssal() {
             </Stack>
           </Paper>
 
-          {rettssak.innlegg.map((i) => {
-            const r = ROLLER[i.rolle];
-            const erDom = i.steg === "dom";
-            return (
-              <Card
-                key={i.steg}
-                withBorder
-                shadow="md"
-                p="lg"
-                className="innlegg-inn"
-                style={{
-                  background: erDom ? "#fdf8e6" : "#f5ede6",
-                  borderLeft: `8px solid ${r.kant}`,
-                  ...(erDom ? { border: `3px solid ${r.kant}` } : {}),
-                }}
-              >
-                <Group mb="sm" gap="sm">
-                  <Avatar
-                    color={r.farge}
-                    radius="xl"
-                    size="xl"
-                    src={r.bilde}
-                    styles={{ image: { objectFit: "cover", objectPosition: "50% 35%", transform: "scale(1.6)", background: "#fdf8e6" } }}
+          {rettssak.status !== "klar" && (
+            <Rettsscene
+              innlegg={rettssak.innlegg}
+              titler={TITLER}
+              nesteRolle={pågår && nesteSteg ? rolleForSteg(nesteSteg) : null}
+            />
+          )}
+
+          {(rettssak.status === "ferdig" || rettssak.status === "feil") && rettssak.innlegg.length > 0 && (
+            <details>
+              <summary style={{ color: "#f3e3b5", cursor: "pointer", fontWeight: 700 }}>📜 Rettsreferat (hele teksten)</summary>
+              <Stack gap="lg" mt="md">
+              {rettssak.innlegg.map((i) => {
+                const r = ROLLER[i.rolle];
+                const erDom = i.steg === "dom";
+                return (
+                  <Card
+                    key={i.steg}
+                    withBorder
+                    shadow="md"
+                    p="lg"
+                    className="innlegg-inn"
+                    style={{
+                      background: erDom ? "#fdf8e6" : "#f5ede6",
+                      borderLeft: `8px solid ${r.kant}`,
+                      ...(erDom ? { border: `3px solid ${r.kant}` } : {}),
+                    }}
                   >
-                    {r.ikon}
-                  </Avatar>
-                  <Stack gap={0}>
-                    <Text fw={700} size={erDom ? "xl" : "md"}>
-                      {TITLER[i.steg]}
-                    </Text>
-                    <Badge color={r.farge} variant="light">
-                      {r.navn}
-                    </Badge>
-                  </Stack>
-                </Group>
-                <Text style={{ whiteSpace: "pre-wrap" }}>{i.tekst}</Text>
-              </Card>
-            );
-          })}
+                    <Group mb="sm" gap="sm">
+                      <Avatar
+                        color={r.farge}
+                        radius="xl"
+                        size="xl"
+                        src={r.bilde}
+                        styles={{ image: { objectFit: "cover", objectPosition: "50% 35%", transform: "scale(1.6)", background: "#fdf8e6" } }}
+                      >
+                        {r.ikon}
+                      </Avatar>
+                      <Stack gap={0}>
+                        <Text fw={700} size={erDom ? "xl" : "md"}>
+                          {TITLER[i.steg]}
+                        </Text>
+                        <Badge color={r.farge} variant="light">
+                          {r.navn}
+                        </Badge>
+                      </Stack>
+                    </Group>
+                    <Text style={{ whiteSpace: "pre-wrap" }}>{i.tekst}</Text>
+                  </Card>
+                );
+              })}
+              </Stack>
+            </details>
+          )}
 
           {pågår && nesteSteg && <Ventetekst steg={nesteSteg} />}
 

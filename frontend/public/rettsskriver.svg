@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 460" role="img" aria-label="Karikatur av rettsskriveren">
+  <title>Rettsskriver</title>
+  <defs>
+    <radialGradient id="r-hud" cx="45%" cy="38%" r="65%">
+      <stop offset="0" stop-color="#fbe1d0"/><stop offset="0.6" stop-color="#efc3a8"/><stop offset="1" stop-color="#c99479"/>
+    </radialGradient>
+    <radialGradient id="r-krøll" cx="40%" cy="35%" r="65%">
+      <stop offset="0" stop-color="#e6e6ea"/><stop offset="1" stop-color="#9a9aa4"/>
+    </radialGradient>
+    <linearGradient id="r-kofte" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#6b4a8a"/><stop offset="1" stop-color="#3a2650"/>
+    </linearGradient>
+    <radialGradient id="r-kinn"><stop offset="0" stop-color="#f08a9a" stop-opacity="0.5"/><stop offset="1" stop-color="#f08a9a" stop-opacity="0"/></radialGradient>
+  </defs>
+
+  <!-- Strikket kofte -->
+  <path d="M40 460 C50 372 112 338 200 336 C288 338 350 372 360 460 Z" fill="url(#r-kofte)"/>
+  <g stroke="#8a6aa8" stroke-width="2" fill="none" opacity="0.8">
+    <path d="M70 420 l10 -10 l10 10 l10 -10 l10 10 l10 -10 l10 10"/>
+    <path d="M230 420 l10 -10 l10 10 l10 -10 l10 10 l10 -10 l10 10"/>
+  </g>
+  <path d="M170 338 Q200 360 230 338 L226 352 Q200 372 174 352 Z" fill="#f7f2ea"/>
+  <circle cx="200" cy="392" r="5" fill="#c9a227"/><circle cx="200" cy="420" r="5" fill="#c9a227"/><circle cx="200" cy="448" r="5" fill="#c9a227"/>
+
+  <!-- Hals -->
+  <path d="M174 286 L174 342 Q200 352 226 342 L226 286 Z" fill="#e6b294"/>
+
+  <!-- Krøller bak -->
+  <g fill="url(#r-krøll)" stroke="#8a8a94" stroke-width="2">
+    <circle cx="112" cy="200" r="24"/><circle cx="106" cy="240" r="22"/><circle cx="118" cy="274" r="20"/>
+    <circle cx="288" cy="200" r="24"/><circle cx="294" cy="240" r="22"/><circle cx="282" cy="274" r="20"/>
+  </g>
+
+  <!-- Hode, rundt og snilt -->
+  <ellipse cx="200" cy="206" rx="82" ry="100" fill="url(#r-hud)" stroke="#b77c5f" stroke-width="2.5"/>
+
+  <!-- Krøller topp -->
+  <g fill="url(#r-krøll)" stroke="#8a8a94" stroke-width="2">
+    <circle cx="136" cy="130" r="24"/><circle cx="166" cy="108" r="26"/><circle cx="200" cy="100" r="27"/>
+    <circle cx="234" cy="108" r="26"/><circle cx="264" cy="130" r="24"/><circle cx="124" cy="164" r="20"/>
+    <circle cx="276" cy="164" r="20"/><circle cx="182" cy="126" r="16"/><circle cx="218" cy="126" r="16"/>
+  </g>
+
+  <!-- Blyant bak øret -->
+  <g transform="translate(270 150) rotate(30)">
+    <rect x="0" y="0" width="10" height="70" fill="#f2c230" stroke="#9a7a10" stroke-width="1.5"/>
+    <path d="M0 70 L5 84 L10 70 Z" fill="#e9c9a0" stroke="#9a7a10" stroke-width="1.5"/>
+    <rect x="0" y="-8" width="10" height="8" fill="#e98a9a"/>
+  </g>
+
+  <!-- Øyenbryn, milde og høye -->
+  <path d="M146 176 Q164 166 184 174" stroke="#8a8a94" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <path d="M216 174 Q236 166 254 176" stroke="#8a8a94" stroke-width="4" fill="none" stroke-linecap="round"/>
+
+  <!-- Store, runde briller med kjede -->
+  <g stroke="#7a4a2a" stroke-width="4" fill="#e6f0f4" fill-opacity="0.35">
+    <circle cx="166" cy="204" r="24"/><circle cx="234" cy="204" r="24"/>
+    <path d="M190 204 Q200 196 210 204" fill="none"/>
+  </g>
+  <path d="M142 206 Q118 270 150 330" stroke="#c9a227" stroke-width="2" fill="none" stroke-dasharray="3 3"/>
+  <path d="M258 206 Q282 270 250 330" stroke="#c9a227" stroke-width="2" fill="none" stroke-dasharray="3 3"/>
+
+  <!-- Øyne, forstørret av brillene, entusiastiske -->
+  <circle cx="166" cy="206" r="12" fill="#fff" stroke="#4a2a1a" stroke-width="2"/>
+  <circle cx="168" cy="206" r="7" fill="#6b4a2a"/><circle cx="168" cy="206" r="3" fill="#111"/><circle cx="171" cy="203" r="2" fill="#fff"/>
+  <circle cx="234" cy="206" r="12" fill="#fff" stroke="#4a2a1a" stroke-width="2"/>
+  <circle cx="236" cy="206" r="7" fill="#6b4a2a"/><circle cx="236" cy="206" r="3" fill="#111"/><circle cx="239" cy="203" r="2" fill="#fff"/>
+
+  <!-- Liten nese -->
+  <path d="M196 222 Q192 240 190 248 Q200 256 210 248 Q208 240 204 222 Z" fill="#e8b294" stroke="#b77c5f" stroke-width="2"/>
+
+  <!-- Kinn -->
+  <ellipse cx="146" cy="246" rx="20" ry="14" fill="url(#r-kinn)"/>
+  <ellipse cx="254" cy="246" rx="20" ry="14" fill="url(#r-kinn)"/>
+
+  <!-- Lurt smil: har akkurat funnet på en sak -->
+  <path d="M174 268 Q200 290 226 268" stroke="#9a3040" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+  <path d="M170 264 l6 5 M230 264 l-6 5" stroke="#c98a68" stroke-width="2"/>
+
+  <!-- Hånd med fjærpenn -->
+  <g transform="translate(62 320) rotate(-20)">
+    <path d="M40 -60 Q20 -30 30 20 L36 20 Q44 -20 60 -56 Q52 -66 40 -60 Z" fill="#fff" stroke="#9a9aa4" stroke-width="2"/>
+    <path d="M44 -52 Q36 -20 33 18" stroke="#b8b8c0" stroke-width="1.5" fill="none"/>
+    <path d="M30 20 L33 32 L36 20 Z" fill="#2a2a30"/>
+    <ellipse cx="34" cy="26" rx="18" ry="14" fill="#efc3a8" stroke="#b77c5f" stroke-width="2"/>
+  </g>
+
+  <!-- Papirrull -->
+  <g transform="translate(250 370) rotate(-6)">
+    <rect x="0" y="0" width="100" height="56" fill="#f6ecd2" stroke="#8a6d44" stroke-width="2"/>
+    <ellipse cx="0" cy="28" rx="8" ry="28" fill="#e6d6ae" stroke="#8a6d44" stroke-width="2"/>
+    <ellipse cx="100" cy="28" rx="8" ry="28" fill="#e6d6ae" stroke="#8a6d44" stroke-width="2"/>
+    <text x="50" y="22" font-family="Georgia, serif" font-size="11" font-weight="700" text-anchor="middle" fill="#3a2650">SAK NR. 4711</text>
+    <path d="M16 34 h68 M16 42 h56" stroke="#b9a37a" stroke-width="2"/>
+  </g>
+
+  <!-- Snakkeboble -->
+  <g transform="translate(236 10)">
+    <path d="M12 0 H152 Q164 0 164 12 V50 Q164 62 152 62 H56 L40 82 L44 62 H12 Q0 62 0 50 V12 Q0 0 12 0 Z" fill="#fff" stroke="#3a2314" stroke-width="3"/>
+    <text x="82" y="27" font-family="Georgia, serif" font-size="14" font-weight="700" text-anchor="middle" fill="#3a2650">Jeg har en ny sak!</text>
+    <text x="82" y="47" font-family="Georgia, serif" font-size="13" font-style="italic" text-anchor="middle" fill="#3a2314">Den er helt sann.*</text>
+  </g>
+</svg>

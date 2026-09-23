@@ -18,8 +18,10 @@ import {
 import { useEffect, useState } from "react";
 import { ApiFeil } from "../api/rettssakApi";
 import { Bakgrunnsmusikk } from "../components/Bakgrunnsmusikk";
+import { BuetTittel } from "../components/BuetTittel";
 import { Diktering } from "../components/Diktering";
 import { Opplesning } from "../components/Opplesning";
+import { Rettsscene } from "../components/Rettsscene";
 import { feilTekst, useRettssak } from "../hooks/useRettssak";
 import { useOverrask } from "../hooks/useOverrask";
 import {
@@ -40,11 +42,13 @@ const TITLER: Record<Steg, string> = {
   dom: "Dommer Bjarnes dom",
 };
 
-const ROLLER: Record<Rolle, { navn: string; ikon: string; farge: string; kant: string }> = {
-  aktor: { navn: "Aktor", ikon: "⚔️", farge: "red.9", kant: "#8b1e1e" },
-  forsvarer: { navn: "Forsvarer", ikon: "🛡️", farge: "blue.9", kant: "#1e3f8b" },
-  dommer: { navn: "Dommer Bjarne", ikon: "☕", farge: "gull.7", kant: "#c9a227" },
+const ROLLER: Record<Rolle, { navn: string; ikon: string; farge: string; kant: string; bilde: string }> = {
+  aktor: { navn: "Aktor", ikon: "⚔️", farge: "red.9", kant: "#8b1e1e", bilde: "/aktor.svg" },
+  forsvarer: { navn: "Forsvarer", ikon: "🛡️", farge: "blue.9", kant: "#1e3f8b", bilde: "/forsvarer.svg" },
+  dommer: { navn: "Dommer Bjarne", ikon: "☕", farge: "gull.7", kant: "#c9a227", bilde: "/bjarne.svg" },
 };
+
+const SKYGGE = "drop-shadow(0 6px 10px rgba(0,0,0,0.5))";
 
 // Ventetekster i karakter, per steg.
 const VENTETEKSTER: Record<Steg, string[]> = {
@@ -56,6 +60,12 @@ const VENTETEKSTER: Record<Steg, string[]> = {
   bjarneEtterForsvarerProsedyre: ["Bjarne bryter inn …", "Bjarne finner fram et uttrykk …"],
   dom: ["Bjarne ser på klokka. Den er 15:57 …", "Bjarne henter påfyll før dommen …", "Bjarne sukker tungt fra dommerbenken …"],
 };
+
+function rolleForSteg(steg: Steg): Rolle {
+  if (steg.startsWith("aktor")) return "aktor";
+  if (steg.startsWith("forsvarer")) return "forsvarer";
+  return "dommer";
+}
 
 const DRAMA_MERKER = [
   { value: 1, label: "1" },
@@ -153,22 +163,33 @@ export function Rettssal() {
             <Text c="gull.4" tt="uppercase" fw={700} style={{ letterSpacing: 6 }}>
               ⚖️ Skaderetten ⚖️
             </Text>
-            <Title order={1} c="gull.2" ta="center" style={{ textShadow: "2px 2px 0 #000" }}>
-              Bjarne mot alle
-            </Title>
-            <Text c="tre.1" fs="italic" ta="center">
-              Retten er satt. Dommeren har egentlig gått for dagen.
-            </Text>
-            <img
-              src="/bjarne.svg"
-              alt="Dommer Bjarne med parykk og kaffekopp"
-              className="bjarne-vugg"
-              style={{ width: 280, maxWidth: "80%", marginTop: 8, filter: "drop-shadow(0 6px 10px rgba(0,0,0,0.5))" }}
-            />
+            <h1 style={{ margin: 0, width: "100%" }}>
+              <BuetTittel />
+            </h1>
+            <Group justify="center" align="flex-end" gap="md" wrap="nowrap" mt="sm" w="100%">
+              <Stack gap={2} align="center" style={{ flex: "0 1 200px" }}>
+                <img src="/aktor.svg" alt="Aktor, en prippen jurist med perlekjede og hevet pekefinger" className="figur-vugg" style={{ width: "100%", filter: SKYGGE }} />
+                <Badge color="red.9" variant="filled">Aktor</Badge>
+              </Stack>
+              <Stack gap={2} align="center" style={{ flex: "0 1 280px" }}>
+                <img src="/bjarne.svg" alt="Dommer Bjarne med parykk og kaffekopp" className="bjarne-vugg" style={{ width: "100%", filter: SKYGGE }} />
+                <Badge color="gull.7" variant="filled">Dommer Bjarne</Badge>
+              </Stack>
+              <Stack gap={2} align="center" style={{ flex: "0 1 200px" }}>
+                <img src="/forsvarer.svg" alt="Forsvareren, en cocky advokat som blunker og gir tommel opp" className="figur-vugg" style={{ width: "100%", filter: SKYGGE, animationDelay: "-2s" }} />
+                <Badge color="blue.9" variant="filled">Forsvarer</Badge>
+              </Stack>
+            </Group>
           </Stack>
 
           <Paper p="lg" withBorder style={{ background: "#f5ede6", borderColor: "#c9a227", borderWidth: 3 }}>
             <Stack>
+              <Group align="flex-start" wrap="nowrap" gap="md">
+                <Stack gap={2} align="center" style={{ flex: "0 0 110px" }}>
+                  <img src="/rettsskriver.svg" alt="Rettsskriveren med briller, fjærpenn og papirrull" style={{ width: 110 }} />
+                  <Text size="xs" fw={700} c="tre.9">Rettsskriveren</Text>
+                </Stack>
+                <Box style={{ flex: 1 }}>
               <Textarea
                 label="Saken for retten"
                 placeholder="Beskriv hva som skjedde. Retten har begrenset tålmodighet."
@@ -180,6 +201,8 @@ export function Rettssal() {
                 error={valideringsfeil}
                 disabled={pågår}
               />
+                </Box>
+              </Group>
               <Group>
                 <Diktering
                   tekst={saksTekst}
@@ -250,45 +273,60 @@ export function Rettssal() {
             </Stack>
           </Paper>
 
-          {rettssak.innlegg.map((i) => {
-            const r = ROLLER[i.rolle];
-            const erDom = i.steg === "dom";
-            return (
-              <Card
-                key={i.steg}
-                withBorder
-                shadow="md"
-                p="lg"
-                className="innlegg-inn"
-                style={{
-                  background: erDom ? "#fdf8e6" : "#f5ede6",
-                  borderLeft: `8px solid ${r.kant}`,
-                  ...(erDom ? { border: `3px solid ${r.kant}` } : {}),
-                }}
-              >
-                <Group mb="sm" gap="sm">
-                  <Avatar
-                    color={r.farge}
-                    radius="xl"
-                    size="lg"
-                    src={i.rolle === "dommer" ? "/bjarne.svg" : undefined}
-                    styles={i.rolle === "dommer" ? { image: { objectFit: "cover", objectPosition: "50% 30%", background: "#fdf8e6" } } : undefined}
+          {rettssak.status !== "klar" && (
+            <Rettsscene
+              innlegg={rettssak.innlegg}
+              titler={TITLER}
+              nesteRolle={pågår && nesteSteg ? rolleForSteg(nesteSteg) : null}
+            />
+          )}
+
+          {(rettssak.status === "ferdig" || rettssak.status === "feil") && rettssak.innlegg.length > 0 && (
+            <details>
+              <summary style={{ color: "#f3e3b5", cursor: "pointer", fontWeight: 700 }}>📜 Rettsreferat (hele teksten)</summary>
+              <Stack gap="lg" mt="md">
+              {rettssak.innlegg.map((i) => {
+                const r = ROLLER[i.rolle];
+                const erDom = i.steg === "dom";
+                return (
+                  <Card
+                    key={i.steg}
+                    withBorder
+                    shadow="md"
+                    p="lg"
+                    className="innlegg-inn"
+                    style={{
+                      background: erDom ? "#fdf8e6" : "#f5ede6",
+                      borderLeft: `8px solid ${r.kant}`,
+                      ...(erDom ? { border: `3px solid ${r.kant}` } : {}),
+                    }}
                   >
-                    {r.ikon}
-                  </Avatar>
-                  <Stack gap={0}>
-                    <Text fw={700} size={erDom ? "xl" : "md"}>
-                      {TITLER[i.steg]}
-                    </Text>
-                    <Badge color={r.farge} variant="light">
-                      {r.navn}
-                    </Badge>
-                  </Stack>
-                </Group>
-                <Text style={{ whiteSpace: "pre-wrap" }}>{i.tekst}</Text>
-              </Card>
-            );
-          })}
+                    <Group mb="sm" gap="sm">
+                      <Avatar
+                        color={r.farge}
+                        radius="xl"
+                        size="xl"
+                        src={r.bilde}
+                        styles={{ image: { objectFit: "cover", objectPosition: "50% 35%", transform: "scale(1.6)", background: "#fdf8e6" } }}
+                      >
+                        {r.ikon}
+                      </Avatar>
+                      <Stack gap={0}>
+                        <Text fw={700} size={erDom ? "xl" : "md"}>
+                          {TITLER[i.steg]}
+                        </Text>
+                        <Badge color={r.farge} variant="light">
+                          {r.navn}
+                        </Badge>
+                      </Stack>
+                    </Group>
+                    <Text style={{ whiteSpace: "pre-wrap" }}>{i.tekst}</Text>
+                  </Card>
+                );
+              })}
+              </Stack>
+            </details>
+          )}
 
           {pågår && nesteSteg && <Ventetekst steg={nesteSteg} />}
 

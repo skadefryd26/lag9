@@ -17,6 +17,7 @@ import {
 } from "@mantine/core";
 import { useEffect, useState } from "react";
 import { ApiFeil } from "../api/rettssakApi";
+import { Diktering } from "../components/Diktering";
 import { Opplesning } from "../components/Opplesning";
 import { feilTekst, useRettssak } from "../hooks/useRettssak";
 import { useOverrask } from "../hooks/useOverrask";
@@ -132,6 +133,14 @@ export function Rettssal() {
                 disabled={pågår}
               />
               <Group>
+                <Diktering
+                  tekst={saksTekst}
+                  onTekst={(t) => {
+                    setSaksTekst(t);
+                    setValideringsfeil(null);
+                  }}
+                  disabled={pågår}
+                />
                 <Button
                   variant="outline"
                   color="tre.7"

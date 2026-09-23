@@ -74,12 +74,13 @@ describe("karakterprompter", () => {
 
   it("gir Bjarne en egen, kort avbrytelsesinstruks", () => {
     const prompt = bjarneAvbrytelseInstruks();
-    expect(prompt).toContain("slay");
     expect(prompt).toContain("hodestups forelsket i Forsvareren");
     expect(prompt).toContain("bare på dramanivå 10");
     expect(prompt).toContain("Forsvarerens to innlegg");
     expect(prompt).toContain("Du bryter ikke inn etter Aktors innlegg");
+    expect(prompt).toContain("Ikke bruk faste slagord eller catchphrases");
     expect(prompt).toContain("Ikke avsi dom");
+    expect(prompt).not.toContain("slay");
     expect(prompt).not.toContain("no cap");
     expect(prompt).not.toContain("period");
     expect(prompt).not.toContain("you know that's right");
@@ -169,7 +170,7 @@ describe("førRettssak", () => {
     ] as const) {
       expect(kall[indeks]?.instructions).toContain("Du bryter ikke inn etter Aktors innlegg");
       expect(kall[indeks]?.instructions).toContain("forelsket i Forsvareren");
-      expect(kall[indeks]?.instructions).toContain("slay");
+      expect(kall[indeks]?.instructions).not.toContain("slay");
       expect(kall[indeks]?.input).toContain(forrigeSvar);
     }
   });

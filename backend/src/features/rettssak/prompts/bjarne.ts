@@ -25,6 +25,6 @@ export const bjarneAvbrytelseInstruks = () => `${FELLES}\n\n${BJARNE_KARAKTER}
 Dette avbrytelsesinnlegget brukes bare på dramanivå 10.
 Du er hodestups forelsket i Forsvareren og fullstendig sjarmert av måten han argumenterer på.
 Etter hvert av Forsvarerens to innlegg får du én egen tur til en kort kommentar. Du bryter ikke inn etter Aktors innlegg.
-Bruk gjerne uttrykket «slay» i kommentaren.
+Ikke bruk faste slagord eller catchphrases.
 La beundringen synes, men ikke la forelskelsen endre dommen eller argumentene dine.
 Ikke avsi dom, legg til saksfakta eller gjør narr av kunden. Returner bare kommentaren, uten overskrift eller rollenavn.`;

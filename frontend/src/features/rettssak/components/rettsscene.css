@@ -1,0 +1,194 @@
+.scene {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1.15fr 1fr;
+  align-items: end;
+  gap: 8px;
+  padding: 40px 16px 0;
+  border-radius: 8px;
+  border: 3px solid #c9a227;
+  background:
+    linear-gradient(to top, #3b2414 0 22%, transparent 22%),
+    radial-gradient(ellipse at 50% 0%, rgba(255, 220, 140, 0.18), transparent 70%),
+    rgba(38, 22, 12, 0.7);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+  overflow: hidden;
+  min-height: 300px;
+}
+
+.plass {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.plass.dommer { margin-bottom: 40px; }
+
+.figur {
+  width: 100%;
+  max-width: 200px;
+  transition: transform 0.4s ease, filter 0.4s ease, opacity 0.4s ease;
+  transform-origin: 50% 100%;
+  opacity: 0.55;
+  filter: grayscale(0.6) drop-shadow(0 6px 10px rgba(0, 0, 0, 0.5));
+  animation: pust 4s ease-in-out infinite;
+}
+.plass.dommer .figur { max-width: 230px; }
+
+.benk {
+  width: 110%;
+  height: 26px;
+  margin-top: -6px;
+  border-radius: 4px 4px 0 0;
+  background: linear-gradient(#6b4226, #3b2414);
+  border-top: 3px solid #c9a227;
+}
+.plass.dommer .benk { height: 40px; }
+
+.navneskilt {
+  margin-top: 4px;
+  color: #f3e3b5;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* Taler */
+.plass.taler .figur {
+  opacity: 1;
+  filter: drop-shadow(0 0 18px var(--glod)) drop-shadow(0 6px 10px rgba(0, 0, 0, 0.5));
+  transform: scale(1.1);
+  animation: snakk 0.9s ease-in-out infinite;
+}
+.plass.taler .munn { animation: munnflapp 0.22s ease-in-out infinite alternate; }
+
+/* Tenker */
+.plass.tenker .figur { opacity: 0.9; filter: drop-shadow(0 0 8px var(--glod)); animation: tenk 2.4s ease-in-out infinite; }
+
+/* Reaksjoner */
+.plass.forsvarer.reagerer .hode { animation: hoderist 2.8s ease-in-out infinite; transform-origin: 200px 300px; }
+.plass.forsvarer.reagerer .oyne { animation: oyerull 2.8s ease-in-out infinite; }
+.plass.aktor.reagerer .figur { opacity: 0.8; animation: irritert 0.18s linear infinite; }
+.plass.dommer:not(.taler):not(.tenker) .figur { animation: bjarne-vugg 4s ease-in-out infinite; transform-origin: 50% 90%; }
+
+/* Dom: klubbeslag */
+.plass.dommer.klubbe .figur { animation: klubbe 0.7s ease-out 2, snakk 0.9s ease-in-out 1.4s infinite; }
+.blits {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at 50% 40%, rgba(255, 240, 180, 0.9), transparent 60%);
+  opacity: 0;
+  animation: blits 0.7s ease-out 2;
+}
+.klubbe-ikon {
+  position: absolute;
+  top: -10px;
+  right: -4px;
+  font-size: 44px;
+  transform-origin: 80% 80%;
+  animation: klubbeikon 0.7s ease-out 2;
+}
+
+/* Snakkeboble */
+.boble {
+  position: absolute;
+  bottom: calc(100% - 20px);
+  z-index: 2;
+  width: min(260px, 60vw);
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: #fffdf6;
+  color: #26160c;
+  font-size: 14px;
+  line-height: 1.35;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
+  border: 2px solid var(--glod);
+  animation: boble-inn 0.35s ease-out;
+}
+.plass.aktor .boble { left: 10%; }
+.plass.forsvarer .boble { right: 10%; }
+.plass.dommer .boble { left: -30%; right: -30%; width: auto; bottom: calc(100% + 10px); }
+.plass.dommer .boble.tanke { left: 50%; right: auto; margin-left: -34px; }
+.boble::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  border: 8px solid transparent;
+  border-top-color: var(--glod);
+  border-bottom: 0;
+}
+.boble.tanke { width: auto; font-size: 22px; font-weight: 700; padding: 2px 14px; letter-spacing: 3px; }
+.boble.tanke span { display: inline-block; animation: prikk 1.2s infinite; }
+.boble.tanke span:nth-child(2) { animation-delay: 0.2s; }
+.boble.tanke span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes pust { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.015, 1.025); } }
+@keyframes snakk { 0%, 100% { transform: scale(1.1) rotate(-1.5deg); } 50% { transform: scale(1.12) translateY(-6px) rotate(1.5deg); } }
+@keyframes munnflapp { from { transform: scaleY(1); } to { transform: scaleY(1.9); } }
+@keyframes tenk { 0%, 100% { transform: rotate(-3deg); } 50% { transform: rotate(3deg); } }
+@keyframes hoderist { 0%, 60%, 100% { transform: rotate(0); } 70% { transform: rotate(-5deg); } 80% { transform: rotate(5deg); } 90% { transform: rotate(-3deg); } }
+@keyframes oyerull { 0%, 20%, 55%, 100% { transform: translateY(0); } 30%, 45% { transform: translateY(-7px); } }
+@keyframes irritert { 0% { transform: translate(0, 0); } 25% { transform: translate(-1.5px, 1px); } 50% { transform: translate(1.5px, -1px); } 75% { transform: translate(-1px, -1px); } }
+@keyframes klubbe { 0% { transform: scale(1.1); } 20% { transform: scale(1.18) translateY(8px); } 35% { transform: scale(1.08) translate(-6px, 0); } 50% { transform: scale(1.1) translate(6px, 0); } 100% { transform: scale(1.1); } }
+@keyframes blits { 0% { opacity: 0; } 20% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes klubbeikon { 0% { transform: rotate(-50deg); } 25% { transform: rotate(20deg); } 100% { transform: rotate(0); } }
+@keyframes boble-inn { from { opacity: 0; transform: translateY(8px) scale(0.9); } to { opacity: 1; transform: none; } }
+@keyframes prikk { 0%, 100% { opacity: 0.2; } 50% { opacity: 1; } }
+
+@media (max-width: 600px) {
+  .scene { padding: 70px 6px 0; min-height: 220px; }
+  .plass.dommer { margin-bottom: 24px; }
+  .boble { font-size: 12px; width: 44vw; }
+  .plass.dommer .boble { left: -40%; right: -40%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scene *, .scene *::before, .scene *::after { animation: none !important; transition: none !important; }
+}
+
+/* Den som hadde ordet sist, fortsatt litt framhevet */
+.plass.fokus .figur { opacity: 0.9; filter: drop-shadow(0 0 8px var(--glod)); }
+
+/* Replikkpanel under scenen, med hale mot den som snakker */
+.replikk {
+  position: relative;
+  margin-top: 14px;
+  padding: 14px 18px;
+  border-radius: 12px;
+  background: #fffdf6;
+  color: #26160c;
+  border: 3px solid var(--glod);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  animation: boble-inn 0.35s ease-out;
+}
+.replikk::before {
+  content: "";
+  position: absolute;
+  top: -16px;
+  border: 14px solid transparent;
+  border-top: 0;
+  border-bottom: 16px solid var(--glod);
+}
+.replikk.aktor::before { left: 14%; }
+.replikk.dommer::before { left: calc(50% - 14px); }
+.replikk.forsvarer::before { right: 14%; }
+.replikk-hode { font-size: 13px; text-transform: uppercase; letter-spacing: 1px; color: #6b4226; margin-bottom: 6px; display: flex; gap: 6px; }
+.replikk-hode strong { color: var(--glod); filter: brightness(0.7); }
+.replikk-teller { margin-left: auto; opacity: 0.7; }
+.replikk-tekst { white-space: pre-wrap; font-size: 16px; line-height: 1.5; max-height: 320px; overflow-y: auto; }
+.markor { animation: prikk 0.8s infinite; color: #6b4226; }
+
+.kontroller { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 10px; }
+.kontroller button {
+  padding: 8px 16px; border-radius: 6px; border: 2px solid #c9a227; background: #3b2414; color: #f3e3b5;
+  font-weight: 700; font-size: 15px; cursor: pointer; transition: background 0.2s;
+}
+.kontroller button:hover:not(:disabled) { background: #6b4226; }
+.kontroller button:disabled { opacity: 0.45; cursor: default; }
+.kontroller button.klar { background: #c9a227; color: #26160c; animation: pulser 1.6s ease-in-out infinite; }
+.kontroller .auto { color: #f3e3b5; font-size: 14px; display: flex; gap: 6px; align-items: center; cursor: pointer; }
+@keyframes pulser { 0%, 100% { box-shadow: 0 0 0 0 rgba(201, 162, 39, 0.6); } 50% { box-shadow: 0 0 0 8px rgba(201, 162, 39, 0); } }

@@ -20,6 +20,7 @@ import { ApiFeil } from "../api/rettssakApi";
 import { Bakgrunnsmusikk } from "../components/Bakgrunnsmusikk";
 import { BuetTittel } from "../components/BuetTittel";
 import { Diktering } from "../components/Diktering";
+import { Aktor, Forsvarer } from "../components/Karakterer";
 import { Opplesning } from "../components/Opplesning";
 import { Rettsscene } from "../components/Rettsscene";
 import { feilTekst, useRettssak } from "../hooks/useRettssak";
@@ -42,9 +43,11 @@ const TITLER: Record<Steg, string> = {
   dom: "Dommer Bjarnes dom",
 };
 
+const AVATAR_FIGUR = { width: "100%", height: "100%", background: "#fdf8e6", transform: "scale(1.6) translateY(8%)" } as const;
+
 const ROLLER: Record<Rolle, { navn: string; ikon: string; farge: string; kant: string; bilde: string }> = {
-  aktor: { navn: "Aktor", ikon: "⚔️", farge: "red.9", kant: "#8b1e1e", bilde: "/aktor.svg" },
-  forsvarer: { navn: "Forsvarer", ikon: "🛡️", farge: "blue.9", kant: "#1e3f8b", bilde: "/forsvarer.svg" },
+  aktor: { navn: "Aktor", ikon: "⚔️", farge: "red.9", kant: "#8b1e1e", bilde: "" },
+  forsvarer: { navn: "Forsvarer", ikon: "🛡️", farge: "blue.9", kant: "#1e3f8b", bilde: "" },
   dommer: { navn: "Dommer Bjarne", ikon: "☕", farge: "gull.7", kant: "#c9a227", bilde: "/bjarne.svg" },
 };
 
@@ -168,7 +171,7 @@ export function Rettssal() {
             </h1>
             <Group justify="center" align="flex-end" gap="md" wrap="nowrap" mt="sm" w="100%">
               <Stack gap={2} align="center" style={{ flex: "0 1 200px" }}>
-                <img src="/aktor.svg" alt="Aktor, en prippen jurist med perlekjede og hevet pekefinger" className="figur-vugg" style={{ width: "100%", filter: SKYGGE }} />
+                <Aktor className="figur-vugg" style={{ width: "100%", filter: SKYGGE }} />
                 <Badge color="red.9" variant="filled">Aktor</Badge>
               </Stack>
               <Stack gap={2} align="center" style={{ flex: "0 1 280px" }}>
@@ -176,7 +179,7 @@ export function Rettssal() {
                 <Badge color="gull.7" variant="filled">Dommer Bjarne</Badge>
               </Stack>
               <Stack gap={2} align="center" style={{ flex: "0 1 200px" }}>
-                <img src="/forsvarer.svg" alt="Forsvareren, en cocky advokat som blunker og gir tommel opp" className="figur-vugg" style={{ width: "100%", filter: SKYGGE, animationDelay: "-2s" }} />
+                <Forsvarer className="figur-vugg" style={{ width: "100%", filter: SKYGGE, animationDelay: "-2s" }} />
                 <Badge color="blue.9" variant="filled">Forsvarer</Badge>
               </Stack>
             </Group>
@@ -306,10 +309,16 @@ export function Rettssal() {
                         color={r.farge}
                         radius="xl"
                         size="xl"
-                        src={r.bilde}
+                        src={i.rolle === "dommer" ? r.bilde : undefined}
                         styles={{ image: { objectFit: "cover", objectPosition: "50% 35%", transform: "scale(1.6)", background: "#fdf8e6" } }}
                       >
-                        {r.ikon}
+                        {i.rolle === "aktor" ? (
+                          <Aktor style={AVATAR_FIGUR} />
+                        ) : i.rolle === "forsvarer" ? (
+                          <Forsvarer style={AVATAR_FIGUR} />
+                        ) : (
+                          r.ikon
+                        )}
                       </Avatar>
                       <Stack gap={0}>
                         <Text fw={700} size={erDom ? "xl" : "md"}>

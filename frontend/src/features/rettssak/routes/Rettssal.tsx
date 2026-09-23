@@ -119,7 +119,20 @@ export function Rettssal() {
     >
       <Container size="md" py="xl">
         <Stack gap="lg">
-          <Stack gap={4} align="center">
+          <Stack
+            gap={4}
+            align="center"
+            justify="center"
+            mih={260}
+            p="xl"
+            style={{
+              borderRadius: 8,
+              border: "3px solid #c9a227",
+              boxShadow: "0 8px 30px rgba(0,0,0,0.6)",
+              background:
+                "linear-gradient(rgba(38,22,12,0.55), rgba(38,22,12,0.85)), url('/rettssal.jpg') center 65% / cover no-repeat",
+            }}
+          >
             <Text c="gull.4" tt="uppercase" fw={700} style={{ letterSpacing: 6 }}>
               ⚖️ Skaderetten ⚖️
             </Text>

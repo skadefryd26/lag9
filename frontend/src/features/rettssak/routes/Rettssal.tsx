@@ -114,7 +114,11 @@ export function Rettssal() {
     <Box
       mih="100vh"
       style={{
-        background: "repeating-linear-gradient(90deg, #3a2314 0px, #4a2e1b 40px, #3a2314 80px)",
+        backgroundColor: "#26160c",
+        backgroundImage:
+          "linear-gradient(rgba(38,22,12,0.6), rgba(38,22,12,0.85)), url('/rettssal.jpg')",
+        backgroundSize: "cover",
+        backgroundPosition: "center top",
       }}
     >
       <Container size="md" py="xl">
@@ -130,7 +134,8 @@ export function Rettssal() {
               border: "3px solid #c9a227",
               boxShadow: "0 8px 30px rgba(0,0,0,0.6)",
               background:
-                "linear-gradient(rgba(38,22,12,0.55), rgba(38,22,12,0.85)), url('/rettssal.jpg') center 65% / cover no-repeat",
+                "rgba(38,22,12,0.55)",
+              backdropFilter: "blur(2px)",
             }}
           >
             <Text c="gull.4" tt="uppercase" fw={700} style={{ letterSpacing: 6 }}>

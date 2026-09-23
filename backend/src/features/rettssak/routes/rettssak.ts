@@ -28,7 +28,7 @@ export function rettssakRouter(gateway: GatewayKall): Router {
     const drama = validerDrama(req.body?.drama);
     if (!drama.ok) return sendFeil(res, "UGYLDIG_INPUT", drama.melding);
     try {
-      res.json({ saksTekst: await finnPåSak(drama.verdi, gateway) });
+      res.json({ saksTekst: await finnPåSak(drama.verdi.rettsskriver, gateway) });
     } catch (err) {
       const f = tilFeil(err);
       sendFeil(res, f.kode, f.melding);

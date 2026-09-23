@@ -9,16 +9,16 @@ export function dramaInstruks(nivå: number): string {
   if (n <= 3) {
     tone =
       "Tonen er nøktern, saklig og tørt byråkratisk, som en saksgjennomgang i et møterom uten vinduer. " +
-      "Ingen utrop, ingen metaforer.";
+      "Ingen utrop eller overdrevne metaforer.";
   } else if (n <= 7) {
     tone =
-      "Tonen er engasjert, som i tingretten en travel tirsdag: retoriske spørsmål, litt teater, " +
-      "en og annen dramatisk pause.";
+      "Tonen er engasjert, som i tingretten en travel tirsdag: bruk retoriske spørsmål, litt teater " +
+      "og en og annen dramatisk pause.";
   } else {
     tone =
       "Tonen er fullt amerikansk TV-rettsdrama: «Innsigelse!», gisp fra tilhørerbenken, dramatiske pauser, " +
       "overdrevne metaforer, tårer, og overbevisning om at dette er århundrets sak.";
   }
 
-  return `\n\nDRAMANIVÅ: ${n} av 10. ${tone} ${lengde}`;
+  return `\n\nDRAMANIVÅ: ${n} av 10. ${tone} ${lengde} Dramanivået styrer bare framføringen, ikke rolle, standpunkt eller saksfakta.`;
 }

@@ -3,7 +3,7 @@ import { useState } from "react";
 import { ApiFeil } from "../api/rettssakApi";
 import { feilTekst, useRettssak } from "../hooks/useRettssak";
 import { useOverrask } from "../hooks/useOverrask";
-import { STEG_REKKEFOLGE, type Steg } from "../types/kontrakt";
+import { STEG_REKKEFOLGE, type Drama, type Steg } from "../types/kontrakt";
 
 // Bevisst enkel første versjon. Utseendet er Pablos oppgave (issue #1).
 
@@ -15,9 +15,21 @@ const TITLER: Record<Steg, string> = {
   dom: "Dommer Bjarnes dom",
 };
 
+const DRAMA_ROLLER: readonly { rolle: keyof Drama; navn: string }[] = [
+  { rolle: "aktor", navn: "Aktor" },
+  { rolle: "forsvarer", navn: "Forsvarer" },
+  { rolle: "dommer", navn: "Dommer Bjarne" },
+  { rolle: "rettsskriver", navn: "Rettsskriver («Overrask meg»)" },
+];
+
 export function Rettssal() {
   const [saksTekst, setSaksTekst] = useState("");
-  const [drama, setDrama] = useState(5);
+  const [drama, setDrama] = useState<Drama>({
+    aktor: 5,
+    forsvarer: 5,
+    dommer: 5,
+    rettsskriver: 5,
+  });
   const [valideringsfeil, setValideringsfeil] = useState<string | null>(null);
   const rettssak = useRettssak();
   const overrask = useOverrask((sak) => {
@@ -66,23 +78,32 @@ export function Rettssal() {
         </Group>
         {overraskFeil && <Alert color="red">{overraskFeil}</Alert>}
 
-        <Text fw={500} size="sm">
-          Drama: {drama}
-        </Text>
-        <Slider
-          min={1}
-          max={10}
-          step={1}
-          value={drama}
-          onChange={setDrama}
-          disabled={pågår}
-          marks={[
-            { value: 1, label: "Saksgjennomgang" },
-            { value: 5, label: "Tingretten" },
-            { value: 10, label: "TV-rettssak" },
-          ]}
-          mb="lg"
-        />
+        <Stack gap="sm">
+          <Text fw={500} size="sm">
+            Velg dramaskala for hver rolle: 1 = saksgjennomgang, 5 = tingrett, 10 = TV-rettssak
+          </Text>
+          {DRAMA_ROLLER.map(({ rolle, navn }) => (
+            <Stack key={rolle} gap={4}>
+              <Text size="sm">
+                {navn}: {drama[rolle]}
+              </Text>
+              <Slider
+                aria-label={`Dramanivå for ${navn}`}
+                min={1}
+                max={10}
+                step={1}
+                value={drama[rolle]}
+                onChange={(verdi) => setDrama((gjeldende) => ({ ...gjeldende, [rolle]: verdi }))}
+                disabled={pågår}
+                marks={[
+                  { value: 1, label: "1" },
+                  { value: 5, label: "5" },
+                  { value: 10, label: "10" },
+                ]}
+              />
+            </Stack>
+          ))}
+        </Stack>
 
         <Button onClick={startRettssak} loading={pågår}>
           Start rettssaken

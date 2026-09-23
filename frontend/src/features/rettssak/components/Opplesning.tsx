@@ -35,6 +35,10 @@ const AVSLUTNING: Record<Intensitet, string> = {
   kaos: "RETTEN ER HEVET! KAFFE! NÅ! Bjarne går hjem.",
 };
 
+// Lar bakgrunnsmusikken dempe seg mens opplesningen pågår, uansett hvilken stemme som brukes.
+let opplesningPågår = false;
+export const leserOpp = () => opplesningPågår;
+
 export function intensitetFraDrama(drama: number): Intensitet {
   return drama <= 3 ? "mild" : drama <= 7 ? "teatralsk" : "kaos";
 }
@@ -69,6 +73,13 @@ function ytring(tekst: string, s: Stemme) {
 export function Opplesning({ innlegg, drama }: { innlegg: Innlegg[]; drama: number }) {
   const [leser, setLeser] = useState(false);
   const [bjarneEkte, setBjarneEkte] = useState(false);
+
+  useEffect(() => {
+    opplesningPågår = leser;
+    return () => {
+      opplesningPågår = false;
+    };
+  }, [leser]);
   const lydRef = useRef<HTMLAudioElement | null>(null);
   const rundeRef = useRef(0);
   const [intensitet, setIntensitet] = useState<Intensitet>(intensitetFraDrama(drama));

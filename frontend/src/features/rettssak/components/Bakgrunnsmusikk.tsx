@@ -1,6 +1,7 @@
 import { Badge, Button, Group } from "@mantine/core";
 import { useEffect, useRef, useState } from "react";
 import type { Drama } from "../types/kontrakt";
+import { leserOpp } from "./Opplesning";
 
 // Bakgrunnsmusikk generert i nettleseren med Web Audio API. Ingen lydfiler.
 // Intensitet 0–1 kommer fra summen av alle dramanivåene.
@@ -287,7 +288,7 @@ export function Bakgrunnsmusikk({ drama }: { drama: Drama }) {
     const mot = new Motor(sisteIntensitet.current);
     motor.current = mot;
     // Demp musikken mens Bjarne leser opp.
-    const lytter = setInterval(() => mot.demp("speechSynthesis" in window && window.speechSynthesis.speaking), 300);
+    const lytter = setInterval(() => mot.demp(leserOpp()), 300);
     return () => {
       clearInterval(lytter);
       mot.stopp();

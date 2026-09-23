@@ -17,6 +17,7 @@ import {
 } from "@mantine/core";
 import { useEffect, useState } from "react";
 import { ApiFeil } from "../api/rettssakApi";
+import { Bakgrunnsmusikk } from "../components/Bakgrunnsmusikk";
 import { Diktering } from "../components/Diktering";
 import { Opplesning } from "../components/Opplesning";
 import { feilTekst, useRettssak } from "../hooks/useRettssak";
@@ -125,7 +126,11 @@ export function Rettssal() {
     <Box
       mih="100vh"
       style={{
-        background: "repeating-linear-gradient(90deg, #3a2314 0px, #4a2e1b 40px, #3a2314 80px)",
+        backgroundColor: "#26160c",
+        backgroundImage:
+          "linear-gradient(rgba(38,22,12,0.6), rgba(38,22,12,0.85)), url('/rettssal.jpg')",
+        backgroundSize: "cover",
+        backgroundPosition: "center top",
       }}
     >
       <Container size="md" py="xl">
@@ -141,7 +146,8 @@ export function Rettssal() {
               border: "3px solid #c9a227",
               boxShadow: "0 8px 30px rgba(0,0,0,0.6)",
               background:
-                "linear-gradient(rgba(38,22,12,0.55), rgba(38,22,12,0.85)), url('/rettssal.jpg') center 65% / cover no-repeat",
+                "rgba(38,22,12,0.55)",
+              backdropFilter: "blur(2px)",
             }}
           >
             <Text c="gull.4" tt="uppercase" fw={700} style={{ letterSpacing: 6 }}>
@@ -153,6 +159,12 @@ export function Rettssal() {
             <Text c="tre.1" fs="italic" ta="center">
               Retten er satt. Dommeren har egentlig gått for dagen.
             </Text>
+            <img
+              src="/bjarne.svg"
+              alt="Dommer Bjarne med parykk og kaffekopp"
+              className="bjarne-vugg"
+              style={{ width: 280, maxWidth: "80%", marginTop: 8, filter: "drop-shadow(0 6px 10px rgba(0,0,0,0.5))" }}
+            />
           </Stack>
 
           <Paper p="lg" withBorder style={{ background: "#f5ede6", borderColor: "#c9a227", borderWidth: 3 }}>
@@ -230,6 +242,8 @@ export function Rettssal() {
                 })}
               </Stack>
 
+              <Bakgrunnsmusikk drama={drama} />
+
               <Button size="lg" color="tre.8" onClick={startRettssak} loading={pågår} fullWidth>
                 🔨 Start rettssaken
               </Button>
@@ -253,7 +267,13 @@ export function Rettssal() {
                 }}
               >
                 <Group mb="sm" gap="sm">
-                  <Avatar color={r.farge} radius="xl" size="lg">
+                  <Avatar
+                    color={r.farge}
+                    radius="xl"
+                    size="lg"
+                    src={i.rolle === "dommer" ? "/bjarne.svg" : undefined}
+                    styles={i.rolle === "dommer" ? { image: { objectFit: "cover", objectPosition: "50% 30%", background: "#fdf8e6" } } : undefined}
+                  >
                     {r.ikon}
                   </Avatar>
                   <Stack gap={0}>

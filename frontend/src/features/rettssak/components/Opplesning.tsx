@@ -1,5 +1,5 @@
 import { Button, Group, SegmentedControl, Stack, Text } from "@mantine/core";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { Innlegg } from "../hooks/useRettssak";
 import type { Rolle } from "../types/kontrakt";
 
@@ -35,6 +35,10 @@ const AVSLUTNING: Record<Intensitet, string> = {
   kaos: "RETTEN ER HEVET! KAFFE! NÅ! Bjarne går hjem.",
 };
 
+// Lar bakgrunnsmusikken dempe seg mens opplesningen pågår, uansett hvilken stemme som brukes.
+let opplesningPågår = false;
+export const leserOpp = () => opplesningPågår;
+
 export function intensitetFraDrama(drama: number): Intensitet {
   return drama <= 3 ? "mild" : drama <= 7 ? "teatralsk" : "kaos";
 }
@@ -68,6 +72,16 @@ function ytring(tekst: string, s: Stemme) {
 
 export function Opplesning({ innlegg, drama }: { innlegg: Innlegg[]; drama: number }) {
   const [leser, setLeser] = useState(false);
+  const [bjarneEkte, setBjarneEkte] = useState(false);
+
+  useEffect(() => {
+    opplesningPågår = leser;
+    return () => {
+      opplesningPågår = false;
+    };
+  }, [leser]);
+  const lydRef = useRef<HTMLAudioElement | null>(null);
+  const rundeRef = useRef(0);
   const [intensitet, setIntensitet] = useState<Intensitet>(intensitetFraDrama(drama));
   const støttet = typeof window !== "undefined" && "speechSynthesis" in window;
 
@@ -77,30 +91,79 @@ export function Opplesning({ innlegg, drama }: { innlegg: Innlegg[]; drama: numb
     if (!støttet) return;
     // Chrome laster stemmelista etter hvert. Be om den tidlig.
     window.speechSynthesis.getVoices();
-    return () => window.speechSynthesis.cancel();
+    fetch("/api/stemme/status")
+      .then((r) => r.json())
+      .then((d: { tilgjengelig?: boolean }) => setBjarneEkte(Boolean(d.tilgjengelig)))
+      .catch(() => setBjarneEkte(false));
+    return () => {
+      rundeRef.current++;
+      window.speechSynthesis.cancel();
+      lydRef.current?.pause();
+    };
   }, [støttet]);
 
   if (!støttet || innlegg.length === 0) return null;
 
-  const start = () => {
-    const tale = window.speechSynthesis;
-    tale.cancel();
-    const sett = STEMMER[intensitet];
-    const kø: SpeechSynthesisUtterance[] = [];
-    for (const i of innlegg) {
-      kø.push(ytring(sett[i.rolle].intro, sett[i.rolle]));
-      kø.push(ytring(vaskTekst(i.tekst), sett[i.rolle]));
+  const snakk = (u: SpeechSynthesisUtterance) =>
+    new Promise<void>((ferdig) => {
+      u.onend = () => ferdig();
+      u.onerror = () => ferdig();
+      window.speechSynthesis.speak(u);
+    });
+
+  // Bjarnes ekte stemme fra ElevenLabs (via backend). Faller tilbake til nettleserstemmen.
+  const spillBjarne = async (tekst: string, avbrutt: () => boolean): Promise<boolean> => {
+    if (!bjarneEkte) return false;
+    try {
+      const svar = await fetch("/api/stemme", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ tekst, intensitet }),
+      });
+      if (!svar.ok || avbrutt()) return false;
+      const url = URL.createObjectURL(await svar.blob());
+      const lyd = new Audio(url);
+      lydRef.current = lyd;
+      await new Promise<void>((ferdig) => {
+        lyd.onended = () => ferdig();
+        lyd.onerror = () => ferdig();
+        lyd.onpause = () => ferdig();
+        void lyd.play().catch(() => ferdig());
+      });
+      URL.revokeObjectURL(url);
+      return true;
+    } catch {
+      return false;
     }
-    const slutt = ytring(AVSLUTNING[intensitet], sett.dommer);
-    slutt.onend = () => setLeser(false);
-    slutt.onerror = () => setLeser(false);
-    kø.push(slutt);
+  };
+
+  const start = async () => {
+    window.speechSynthesis.cancel();
+    const runde = ++rundeRef.current;
+    const avbrutt = () => rundeRef.current !== runde;
+    const sett = STEMMER[intensitet];
     setLeser(true);
-    kø.forEach((u) => tale.speak(u));
+    for (const i of innlegg) {
+      if (avbrutt()) return;
+      const s = sett[i.rolle];
+      const tekst = vaskTekst(i.tekst);
+      if (i.rolle === "dommer" && (await spillBjarne(`${s.intro} ${tekst}`, avbrutt))) continue;
+      if (avbrutt()) return;
+      await snakk(ytring(s.intro, s));
+      if (avbrutt()) return;
+      await snakk(ytring(tekst, s));
+    }
+    if (avbrutt()) return;
+    if (!(await spillBjarne(AVSLUTNING[intensitet], avbrutt))) {
+      if (!avbrutt()) await snakk(ytring(AVSLUTNING[intensitet], sett.dommer));
+    }
+    if (!avbrutt()) setLeser(false);
   };
 
   const stopp = () => {
+    rundeRef.current++;
     window.speechSynthesis.cancel();
+    lydRef.current?.pause();
     setLeser(false);
   };
 
@@ -127,8 +190,8 @@ export function Opplesning({ innlegg, drama }: { innlegg: Innlegg[]; drama: numb
           🤫 Stille i retten! (stopp opplesningen)
         </Button>
       ) : (
-        <Button color="gull.6" onClick={start} fullWidth size="md">
-          🔊 La Bjarne lese opp hele saken
+        <Button color="gull.6" onClick={() => void start()} fullWidth size="md">
+          🔊 La Bjarne lese opp hele saken{bjarneEkte ? " (med ekte Bjarne-stemme)" : ""}
         </Button>
       )}
     </Stack>

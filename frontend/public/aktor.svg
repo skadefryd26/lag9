@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 460" role="img" aria-label="Karikatur av aktor">
+  <title>Aktor</title>
+  <defs>
+    <radialGradient id="a-hud" cx="45%" cy="38%" r="65%">
+      <stop offset="0" stop-color="#fde0cc"/><stop offset="0.6" stop-color="#f2c1a3"/><stop offset="1" stop-color="#cf9676"/>
+    </radialGradient>
+    <linearGradient id="a-har" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e2b86a"/><stop offset="1" stop-color="#a87a36"/>
+    </linearGradient>
+    <linearGradient id="a-kappe" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#5a1414"/><stop offset="1" stop-color="#2a0808"/>
+    </linearGradient>
+    <radialGradient id="a-kinn"><stop offset="0" stop-color="#e98a8a" stop-opacity="0.45"/><stop offset="1" stop-color="#e98a8a" stop-opacity="0"/></radialGradient>
+    <radialGradient id="perle" cx="35%" cy="35%" r="65%"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#d9d2c4"/></radialGradient>
+  </defs>
+
+  <!-- Kappe -->
+  <path d="M40 460 C50 372 112 338 200 336 C288 338 350 372 360 460 Z" fill="url(#a-kappe)"/>
+  <path d="M160 336 L200 380 L240 336 Z" fill="#f7f2ea"/>
+  <path d="M188 376 L200 400 L212 376 Z" fill="#d7ccb8"/>
+
+  <!-- Hals + perlekjede -->
+  <path d="M170 284 L170 340 Q200 352 230 340 L230 284 Z" fill="#e6ad8f"/>
+  <g fill="url(#perle)" stroke="#b8ad98" stroke-width="1">
+    <circle cx="170" cy="334" r="6"/><circle cx="181" cy="340" r="6"/><circle cx="193" cy="343" r="6"/>
+    <circle cx="207" cy="343" r="6"/><circle cx="219" cy="340" r="6"/><circle cx="230" cy="334" r="6"/>
+  </g>
+
+  <!-- Hår bak: stram, spraya bob -->
+  <path d="M104 170 Q98 90 200 80 Q302 90 296 170 L300 262 Q288 280 268 272 L268 170 L132 170 L132 272 Q112 280 100 262 Z" fill="url(#a-har)" stroke="#8a6128" stroke-width="2"/>
+
+  <!-- Øreringer -->
+  <circle cx="118" cy="244" r="7" fill="url(#perle)" stroke="#b8ad98"/>
+  <circle cx="282" cy="244" r="7" fill="url(#perle)" stroke="#b8ad98"/>
+
+  <!-- Hode, smalt og strengt -->
+  <path d="M124 160 Q126 96 200 92 Q274 96 276 160 L278 224 Q272 280 236 304 Q218 316 200 316 Q182 316 164 304 Q128 280 122 224 Z"
+        fill="url(#a-hud)" stroke="#b77c5f" stroke-width="2.5"/>
+
+  <!-- Hår foran: stiv lugg på skrå -->
+  <path d="M122 170 Q128 100 200 94 Q262 98 278 150 Q236 112 170 138 Q140 150 122 170 Z" fill="url(#a-har)" stroke="#8a6128" stroke-width="2"/>
+  <path d="M150 128 Q190 110 240 116" stroke="#f3d494" stroke-width="3" fill="none" opacity="0.7"/>
+
+  <!-- Øyenbryn: tynne, høyt buede, skeptiske -->
+  <path d="M144 178 Q162 162 186 176" stroke="#7a5528" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+  <path d="M214 174 Q240 156 262 170" stroke="#7a5528" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+
+  <!-- Øyne, smale og dømmende, med vipper -->
+  <g>
+    <path d="M144 200 Q164 190 186 200 Q164 208 144 200 Z" fill="#fbf7f2" stroke="#4a2a1a" stroke-width="2.5"/>
+    <circle cx="170" cy="200" r="5.5" fill="#4d7a4a"/><circle cx="170" cy="200" r="2.6" fill="#111"/>
+    <path d="M142 199 Q164 186 188 199" stroke="#2a160c" stroke-width="3.5" fill="none"/>
+    <path d="M146 194 l-5 -5 M156 190 l-3 -6 M178 190 l3 -6 M186 196 l6 -4" stroke="#2a160c" stroke-width="2"/>
+  </g>
+  <g>
+    <path d="M214 198 Q236 188 256 198 Q236 206 214 198 Z" fill="#fbf7f2" stroke="#4a2a1a" stroke-width="2.5"/>
+    <circle cx="240" cy="198" r="5.5" fill="#4d7a4a"/><circle cx="240" cy="198" r="2.6" fill="#111"/>
+    <path d="M212 197 Q236 184 258 197" stroke="#2a160c" stroke-width="3.5" fill="none"/>
+    <path d="M216 192 l-6 -4 M224 188 l-3 -6 M246 188 l3 -6 M256 193 l5 -5" stroke="#2a160c" stroke-width="2"/>
+  </g>
+
+  <!-- Spiss nese, til værs -->
+  <path d="M198 206 Q194 236 186 254 Q198 262 214 254 Q206 236 204 206 Z" fill="#eab092" stroke="#b77c5f" stroke-width="2"/>
+  <path d="M192 254 q4 -3 8 0 M204 254 q4 -3 8 0" stroke="#8f5a44" stroke-width="2" fill="none"/>
+
+  <!-- Kinn -->
+  <ellipse cx="150" cy="240" rx="20" ry="14" fill="url(#a-kinn)"/>
+  <ellipse cx="250" cy="240" rx="20" ry="14" fill="url(#a-kinn)"/>
+
+  <!-- Snurpet munn (misbilligende), rød leppestift -->
+  <path d="M186 284 Q200 276 214 284 Q200 292 186 284 Z" fill="#b3203a" stroke="#7a1022" stroke-width="2"/>
+  <path d="M184 282 l-4 -2 M216 282 l4 -2 M192 294 l-2 3 M208 294 l2 3" stroke="#c98a68" stroke-width="1.5"/>
+
+  <!-- Hevet pekefinger: «Unnskyld meg, men …» -->
+  <g transform="translate(74 300)">
+    <path d="M10 90 Q0 60 14 40 L36 40 Q50 60 42 90 Z" fill="url(#a-kappe)"/>
+    <path d="M12 44 Q10 22 22 18 L34 18 Q42 26 38 44 Z" fill="#f2c1a3" stroke="#b77c5f" stroke-width="2"/>
+    <rect x="21" y="-28" width="12" height="50" rx="6" fill="#f2c1a3" stroke="#b77c5f" stroke-width="2"/>
+    <path d="M23 -24 h8" stroke="#b3203a" stroke-width="4" stroke-linecap="round"/>
+  </g>
+
+  <!-- Papirbunke under armen -->
+  <g transform="translate(270 360) rotate(10)">
+    <rect x="0" y="0" width="80" height="60" fill="#fff" stroke="#6a5a48" stroke-width="2"/>
+    <rect x="4" y="-5" width="80" height="60" fill="#faf6ee" stroke="#6a5a48" stroke-width="2"/>
+    <text x="44" y="22" font-family="Georgia, serif" font-size="11" font-weight="700" text-anchor="middle" fill="#5a1414">§ 14-3 (c)</text>
+    <path d="M14 32 h60 M14 40 h52 M14 48 h58" stroke="#b9ab96" stroke-width="2"/>
+  </g>
+
+  <!-- Snakkeboble -->
+  <g transform="translate(236 10)">
+    <path d="M12 0 H152 Q164 0 164 12 V50 Q164 62 152 62 H56 L40 82 L44 62 H12 Q0 62 0 50 V12 Q0 0 12 0 Z" fill="#fff" stroke="#3a2314" stroke-width="3"/>
+    <text x="82" y="27" font-family="Georgia, serif" font-size="14" font-weight="700" text-anchor="middle" fill="#5a1414">Unnskyld meg,</text>
+    <text x="82" y="47" font-family="Georgia, serif" font-size="13" font-style="italic" text-anchor="middle" fill="#3a2314">men paragrafen …</text>
+  </g>
+</svg>

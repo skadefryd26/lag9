@@ -40,11 +40,13 @@ const TITLER: Record<Steg, string> = {
   dom: "Dommer Bjarnes dom",
 };
 
-const ROLLER: Record<Rolle, { navn: string; ikon: string; farge: string; kant: string }> = {
-  aktor: { navn: "Aktor", ikon: "⚔️", farge: "red.9", kant: "#8b1e1e" },
-  forsvarer: { navn: "Forsvarer", ikon: "🛡️", farge: "blue.9", kant: "#1e3f8b" },
-  dommer: { navn: "Dommer Bjarne", ikon: "☕", farge: "gull.7", kant: "#c9a227" },
+const ROLLER: Record<Rolle, { navn: string; ikon: string; farge: string; kant: string; bilde: string }> = {
+  aktor: { navn: "Aktor", ikon: "⚔️", farge: "red.9", kant: "#8b1e1e", bilde: "/aktor.svg" },
+  forsvarer: { navn: "Forsvarer", ikon: "🛡️", farge: "blue.9", kant: "#1e3f8b", bilde: "/forsvarer.svg" },
+  dommer: { navn: "Dommer Bjarne", ikon: "☕", farge: "gull.7", kant: "#c9a227", bilde: "/bjarne.svg" },
 };
+
+const SKYGGE = "drop-shadow(0 6px 10px rgba(0,0,0,0.5))";
 
 // Ventetekster i karakter, per steg.
 const VENTETEKSTER: Record<Steg, string[]> = {
@@ -159,16 +161,30 @@ export function Rettssal() {
             <Text c="tre.1" fs="italic" ta="center">
               Retten er satt. Dommeren har egentlig gått for dagen.
             </Text>
-            <img
-              src="/bjarne.svg"
-              alt="Dommer Bjarne med parykk og kaffekopp"
-              className="bjarne-vugg"
-              style={{ width: 280, maxWidth: "80%", marginTop: 8, filter: "drop-shadow(0 6px 10px rgba(0,0,0,0.5))" }}
-            />
+            <Group justify="center" align="flex-end" gap="md" wrap="nowrap" mt="sm" w="100%">
+              <Stack gap={2} align="center" style={{ flex: "0 1 200px" }}>
+                <img src="/aktor.svg" alt="Aktor, en prippen jurist med perlekjede og hevet pekefinger" className="figur-vugg" style={{ width: "100%", filter: SKYGGE }} />
+                <Badge color="red.9" variant="filled">Aktor</Badge>
+              </Stack>
+              <Stack gap={2} align="center" style={{ flex: "0 1 280px" }}>
+                <img src="/bjarne.svg" alt="Dommer Bjarne med parykk og kaffekopp" className="bjarne-vugg" style={{ width: "100%", filter: SKYGGE }} />
+                <Badge color="gull.7" variant="filled">Dommer Bjarne</Badge>
+              </Stack>
+              <Stack gap={2} align="center" style={{ flex: "0 1 200px" }}>
+                <img src="/forsvarer.svg" alt="Forsvareren, en cocky advokat som blunker og gir tommel opp" className="figur-vugg" style={{ width: "100%", filter: SKYGGE, animationDelay: "-2s" }} />
+                <Badge color="blue.9" variant="filled">Forsvarer</Badge>
+              </Stack>
+            </Group>
           </Stack>
 
           <Paper p="lg" withBorder style={{ background: "#f5ede6", borderColor: "#c9a227", borderWidth: 3 }}>
             <Stack>
+              <Group align="flex-start" wrap="nowrap" gap="md">
+                <Stack gap={2} align="center" style={{ flex: "0 0 110px" }}>
+                  <img src="/rettsskriver.svg" alt="Rettsskriveren med briller, fjærpenn og papirrull" style={{ width: 110 }} />
+                  <Text size="xs" fw={700} c="tre.9">Rettsskriveren</Text>
+                </Stack>
+                <Box style={{ flex: 1 }}>
               <Textarea
                 label="Saken for retten"
                 placeholder="Beskriv hva som skjedde. Retten har begrenset tålmodighet."
@@ -180,6 +196,8 @@ export function Rettssal() {
                 error={valideringsfeil}
                 disabled={pågår}
               />
+                </Box>
+              </Group>
               <Group>
                 <Diktering
                   tekst={saksTekst}
@@ -270,9 +288,9 @@ export function Rettssal() {
                   <Avatar
                     color={r.farge}
                     radius="xl"
-                    size="lg"
-                    src={i.rolle === "dommer" ? "/bjarne.svg" : undefined}
-                    styles={i.rolle === "dommer" ? { image: { objectFit: "cover", objectPosition: "50% 30%", background: "#fdf8e6" } } : undefined}
+                    size="xl"
+                    src={r.bilde}
+                    styles={{ image: { objectFit: "cover", objectPosition: "50% 35%", transform: "scale(1.6)", background: "#fdf8e6" } }}
                   >
                     {r.ikon}
                   </Avatar>

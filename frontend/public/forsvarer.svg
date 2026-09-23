@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 460" role="img" aria-label="Karikatur av forsvareren">
+  <title>Forsvarer</title>
+  <defs>
+    <radialGradient id="f-hud" cx="45%" cy="38%" r="65%">
+      <stop offset="0" stop-color="#e9b896"/><stop offset="0.6" stop-color="#d49a74"/><stop offset="1" stop-color="#aa7352"/>
+    </radialGradient>
+    <linearGradient id="f-har" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#3a2a20"/><stop offset="1" stop-color="#140c08"/>
+    </linearGradient>
+    <linearGradient id="f-dress" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1e3f8b"/><stop offset="1" stop-color="#0c1c44"/>
+    </linearGradient>
+    <radialGradient id="f-stubb" cx="50%" cy="30%" r="70%">
+      <stop offset="0.5" stop-color="#3a2a20" stop-opacity="0"/><stop offset="1" stop-color="#3a2a20" stop-opacity="0.4"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Dress med oppbrettet krage -->
+  <path d="M40 460 C50 372 112 338 200 336 C288 338 350 372 360 460 Z" fill="url(#f-dress)"/>
+  <path d="M150 340 L200 420 L250 340 L230 334 L200 380 L170 334 Z" fill="#fff"/>
+  <path d="M192 378 L200 392 L208 378 L214 440 L200 452 L186 440 Z" fill="#c9a227" stroke="#8a6d14" stroke-width="1.5"/>
+  <path d="M150 340 L128 400 L176 360 Z M250 340 L272 400 L224 360 Z" fill="#163270"/>
+  <!-- Lommetørkle i brystlomma -->
+  <path d="M258 392 l10 -16 l6 14 l8 -12 l4 16 Z" fill="#c9a227"/>
+
+  <!-- Hals -->
+  <path d="M170 284 L170 340 Q200 352 230 340 L230 284 Z" fill="#c68b66"/>
+
+  <!-- Ører -->
+  <path d="M120 196 Q100 190 100 216 Q102 244 126 246" fill="#cc9270" stroke="#9a6446" stroke-width="2.5"/>
+  <path d="M280 196 Q300 190 300 216 Q298 244 274 246" fill="#cc9270" stroke="#9a6446" stroke-width="2.5"/>
+
+  <!-- Hode, markert kjake -->
+  <path d="M124 150 Q126 92 200 88 Q274 92 276 150 L278 220 Q276 270 250 296 Q226 318 200 318 Q174 318 150 296 Q124 270 122 220 Z"
+        fill="url(#f-hud)" stroke="#9a6446" stroke-width="2.5"/>
+  <path d="M132 240 Q142 300 200 314 Q258 300 268 240 Q260 292 200 302 Q140 292 132 240 Z" fill="url(#f-stubb)"/>
+  <!-- Kløft i haka -->
+  <path d="M200 300 v10" stroke="#9a6446" stroke-width="2"/>
+
+  <!-- Glattkjemmet hår med stor bølge -->
+  <path d="M118 170 Q108 76 210 72 Q300 76 286 170 Q280 130 256 118 Q230 150 150 130 Q128 140 118 170 Z" fill="url(#f-har)"/>
+  <path d="M150 108 Q200 70 262 102" stroke="#6a5444" stroke-width="4" fill="none" opacity="0.8"/>
+  <path d="M168 120 Q214 92 256 116" stroke="#6a5444" stroke-width="3" fill="none" opacity="0.6"/>
+
+  <!-- Øyenbryn: ett løftet, lekent -->
+  <path d="M140 178 Q162 166 186 174" stroke="#1e140e" stroke-width="7" fill="none" stroke-linecap="round"/>
+  <path d="M214 170 Q238 152 262 164" stroke="#1e140e" stroke-width="7" fill="none" stroke-linecap="round"/>
+
+  <!-- Venstre øye: blunk -->
+  <path d="M144 200 Q164 210 184 198" stroke="#2a160c" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <path d="M146 206 l-6 4 M184 202 l6 3" stroke="#2a160c" stroke-width="2"/>
+  <!-- Høyre øye: selvsikkert -->
+  <path d="M216 196 Q238 182 260 196 Q238 208 216 196 Z" fill="#fbf7f2" stroke="#4a2a1a" stroke-width="2.5"/>
+  <circle cx="238" cy="196" r="7" fill="#6b4a2a"/><circle cx="238" cy="196" r="3.2" fill="#111"/>
+  <circle cx="240" cy="194" r="1.6" fill="#fff"/>
+
+  <!-- Nese -->
+  <path d="M196 204 Q192 234 184 250 Q198 262 216 250 Q208 234 204 204 Z" fill="#d09470" stroke="#9a6446" stroke-width="2"/>
+  <path d="M190 252 q5 -4 10 0 M202 252 q5 -4 10 0" stroke="#7a4a32" stroke-width="2" fill="none"/>
+
+  <!-- Stort, cocky glis med tenner -->
+  <path d="M166 272 Q200 300 244 266 Q236 298 200 302 Q172 300 166 272 Z" fill="#fff" stroke="#7a2f22" stroke-width="3"/>
+  <path d="M170 276 Q200 290 240 270" stroke="#d8d0c4" stroke-width="1.5" fill="none"/>
+  <path d="M244 266 q6 -2 8 4" stroke="#7a2f22" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <!-- Glimt i tanna -->
+  <path d="M222 280 l4 -8 l4 8 l-4 8 Z" fill="#fff8c0" stroke="#e8c84a" stroke-width="1"/>
+
+  <!-- Tommel opp -->
+  <g transform="translate(290 330)">
+    <path d="M0 40 Q-6 20 10 16 L40 16 Q50 26 46 44 Q40 60 10 58 Z" fill="#d49a74" stroke="#9a6446" stroke-width="2.5"/>
+    <rect x="14" y="-22" width="16" height="42" rx="8" fill="#d49a74" stroke="#9a6446" stroke-width="2.5"/>
+    <path d="M8 30 h34 M8 42 h34" stroke="#9a6446" stroke-width="1.8"/>
+    <path d="M-4 58 Q0 90 30 100 L50 90 Q48 60 44 50" fill="url(#f-dress)"/>
+  </g>
+
+  <!-- Snakkeboble -->
+  <g transform="translate(8 10)">
+    <path d="M12 0 H164 Q176 0 176 12 V50 Q176 62 164 62 H116 L128 82 L96 62 H12 Q0 62 0 50 V12 Q0 0 12 0 Z" fill="#fff" stroke="#3a2314" stroke-width="3"/>
+    <text x="88" y="27" font-family="Georgia, serif" font-size="14" font-weight="700" text-anchor="middle" fill="#1e3f8b">Kom igjen a dommer,</text>
+    <text x="88" y="47" font-family="Georgia, serif" font-size="13" font-style="italic" text-anchor="middle" fill="#3a2314">dette her er bare tull</text>
+  </g>
+</svg>
